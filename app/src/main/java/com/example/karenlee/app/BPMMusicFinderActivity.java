@@ -1,16 +1,18 @@
 package com.example.karenlee.app;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.karenlee.app.db.SongBPMDbHelper;
 
 import java.util.*;
 
-public class BPMMusicFinderActivity extends ActionBarActivity {
+public class BPMMusicFinderActivity extends AppCompatActivity {
 
     private ArrayList<Double> bpms= new ArrayList<Double>();
     private MusicService musicSrv;
@@ -25,6 +27,7 @@ public class BPMMusicFinderActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mDbHelper = new SongBPMDbHelper(getApplicationContext());
         setContentView(R.layout.activity_bpmmusic_finder);
         Intent mainIntent = getIntent();
         songs = (ArrayList<Song>)mainIntent.getSerializableExtra(SetupActivity.EXTRA_SONGS);

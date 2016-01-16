@@ -24,7 +24,7 @@ public class AccelSensorSnapshot {
     }
 
     private void init() {
-        accelDataMatrix = new float[max][3];
+        accelDataMatrix = new float[3][max];
         timeDataVector = new float[max];
         currentSample = 0;
     }
@@ -45,9 +45,9 @@ public class AccelSensorSnapshot {
         if (currentSample < max) {
             // TODO(Bryce): add noise filtering, delta,  and magnitude measurements here.
             timeDataVector[currentSample] = time;
-            accelDataMatrix[currentSample][0] = x;
-            accelDataMatrix[currentSample][1] = y;
-            accelDataMatrix[currentSample][2] = z;
+            accelDataMatrix[0][currentSample] = x;
+            accelDataMatrix[1][currentSample] = y;
+            accelDataMatrix[2][currentSample] = z;
         } else {
             Log.d(TAG, "Ran out of space! " + max + " is the max amount.");
         }
