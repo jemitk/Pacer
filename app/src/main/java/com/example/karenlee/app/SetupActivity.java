@@ -1,10 +1,10 @@
 package com.example.karenlee.app;
 
-import com.example.karenlee.app.MusicService.MusicBinder;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -21,15 +21,11 @@ import android.widget.MediaController.MediaPlayerControl;
 import android.os.IBinder;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
-import android.view.MenuItem;
-import android.view.View;
-import ddf.minim.*;
-import ddf.minim.analysis.*;
 
-public class MainActivity extends AppCompatActivity implements MediaPlayerControl {
+public class SetupActivity extends ActionBarActivity implements MediaPlayerControl {
     private ArrayList<Song> songList;
+    static final String EXTRA_SONGS = "com.example.karenlee.extras.EXTRA_SONGS";
     private ListView songView;
     private MusicController controller;
     private MusicService musicSrv;
@@ -39,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_setup);
 
         // retrieve the ListView instance using the ID we gave it in the main layout
         songView = (ListView)findViewById(R.id.song_list);
@@ -265,6 +261,20 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
         stopService(playIntent);
         musicSrv=null;
         super.onDestroy();
+    }
+
+    public void goToBPM(){
+        Intent bpmIntent = new Intent(this, BPMMusicFinderActivity.class);
+        bpmIntent.putExtra(EXTRA_SONGS, songList);
+        startActivityForResult(bpmIntent, 0);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent newItem){
+        if (requestCode==0){
+            if (resultCode==RESULT_OK){
+                //TODO: store into db bpm result from newItem.getStringExtra(some other thing here)
+            }
+        }
     }
 
 }

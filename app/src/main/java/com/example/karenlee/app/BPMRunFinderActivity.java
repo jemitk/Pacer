@@ -1,6 +1,11 @@
 package com.example.karenlee.app;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +17,7 @@ import android.view.View;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class BPMActivity extends AppCompatActivity {
+public class BPMRunFinderActivity extends AppCompatActivity {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -30,6 +35,17 @@ public class BPMActivity extends AppCompatActivity {
      * and a change of the status and navigation bar.
      */
     private static final int UI_ANIMATION_DELAY = 300;
+
+    /**
+     * The amount of samples to hold in a snapshot.
+     */
+    private static final int SAMPLE_NUM = 200;
+
+    /**
+     * The manager that you register all of the sensor objects with, handles their updates.
+     */
+    private SensorManager mSensorManager;
+
     private final Handler mHideHandler = new Handler();
     private View mContentView;
     private final Runnable mHidePart2Runnable = new Runnable() {
@@ -49,6 +65,7 @@ public class BPMActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
     };
+
     private View mControlsView;
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
@@ -87,25 +104,28 @@ public class BPMActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_bpm);
+        setContentView(R.layout.activity_bpmfinder);
 
-        mVisible = true;
-        mControlsView = findViewById(R.id.fullscreen_content_controls);
-        mContentView = findViewById(R.id.fullscreen_content);
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+        Sensor accelSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        // registers given listener with the accelerometer, gets samples every 1,000 us, or 1 ms.
+        mSensorManager.registerListener(new SensorEventListener(){
+            public void onSensorChanged(SensorEvent event) {
+                float axisX = event.values[0];
+                float axisY = event.values[1];
+                float axisZ = event.values[2];
 
 
-        // Set up the user interaction to manually show or hide the system UI.
-        mContentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toggle();
+
             }
-        });
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+                // blank for now
+                // TODO(Bryce): find out what this method should actually do.
+            }
+        }, accelSensor, 1_000);
+
     }
 
     @Override
