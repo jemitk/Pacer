@@ -13,7 +13,13 @@ import android.view.View;
 import android.widget.MediaController;
 
 import java.util.*;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
+import com.example.karenlee.app.db.SongBPMDbHelper;
+
+import java.util.*;
 
 public class BPMMusicFinderActivity extends AppCompatActivity implements MediaController.MediaPlayerControl {
 
@@ -78,6 +84,8 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
         }
     };
 
+    private SongBPMDbHelper mDbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +118,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
             }
         });
         Intent mainIntent = getIntent();
-        songs = (ArrayList<Song>)mainIntent.getSerializableExtra(MainActivity.EXTRA_SONGS);
+        songs = (ArrayList<Song>)mainIntent.getSerializableExtra(SetupActivity.EXTRA_SONGS);
         setController();
     }
 
@@ -132,7 +140,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     }
 
     public void goToMain(){
-        Intent mainIntent = new Intent(this, MainActivity.class);
+        Intent mainIntent = new Intent(this, SetupActivity.class);
         mainIntent.putExtra(EXTRA_BPM, bpms);
         setResult(RESULT_OK, mainIntent);
         finish();

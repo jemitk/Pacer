@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -22,7 +23,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.ServiceConnection;
 
-public class MainActivity extends AppCompatActivity implements MediaPlayerControl {
+public class SetupActivity extends ActionBarActivity implements MediaPlayerControl {
     private ArrayList<Song> songList;
     static final String EXTRA_SONGS = "com.example.karenlee.extras.EXTRA_SONGS";
     private ListView songView;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_setup);
 
         // retrieve the ListView instance using the ID we gave it in the main layout
         songView = (ListView)findViewById(R.id.song_list);

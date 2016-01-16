@@ -7,7 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by brycewilley on 1/16/16.
+ * The helper database class. Create an instance of this to access the song-bpm db mapping.
+ *
+ * Two main methods you will use are:
+ *  instance.getWritableDatabase();
+ *  instance.getReadableDatabase();
  */
 public class SongBPMDbHelper extends SQLiteOpenHelper {
     // If you change the database schema, you must increment the database version.
