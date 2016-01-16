@@ -96,8 +96,8 @@ public class SetupActivity extends ActionBarActivity implements MediaPlayerContr
             startService(playIntent);
         }
 
-        goToBPM();
-        finish();
+        //goToBPM();
+        //finish();
     }
 
     @Override
