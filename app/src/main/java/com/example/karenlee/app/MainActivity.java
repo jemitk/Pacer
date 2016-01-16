@@ -251,6 +251,10 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
 
     }
 
+    public void proceedToTap(){
+
+    }
+
     public void songPicked(View view){
         musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
         musicSrv.playSong();
