@@ -48,7 +48,11 @@
             android:label="@string/title_activity_bpmfinder"
             android:theme="@style/FullscreenTheme" />
         <activity android:name=".BPMMusicFinderActivity" />
-        <activity android:name=".RetrieveSongsActivity"></activity>
+        <activity android:name=".RetrieveSongsActivity" />
+        <activity
+            android:name=".GetSongsActivity"
+            android:label="@string/title_activity_get_songs"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

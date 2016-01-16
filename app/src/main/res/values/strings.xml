@@ -7,4 +7,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="title_activity_bpm">BPMActivity</string>
+
+    <string name="title_activity_get_songs">GetSongsActivity</string>
 </resources>

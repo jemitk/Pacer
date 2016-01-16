@@ -1,5 +1,8 @@
 package com.example.karenlee.app;
 
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import java.util.ArrayList;
@@ -8,16 +11,16 @@ import java.util.Comparator;
 import android.net.Uri;
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.util.Log;
 import android.widget.ListView;
 
+import com.example.karenlee.app.db.SongBPMContract;
 import com.example.karenlee.app.db.SongBPMDbHelper;
 
 public class RetrieveSongsActivity extends AppCompatActivity {
 
     private ArrayList<Song> songList;
-
-    // Helper class used to put data to the DB
-    //SongBPMDbHelper dbHelper = new SongBPMDbHelper(getContext());
+    static final String TAG = "RETRIEVE_SONGS_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,16 @@ public class RetrieveSongsActivity extends AppCompatActivity {
         // Instantiate and populate the song list
         songList = new ArrayList<Song>();
         getSongList();
+
+        Log.d(TAG, "SIZE IS = " + songList.size());
+
+        // Helper class used to put data to the DB
+        SongBPMDbHelper dbHelper = SongBPMDbHelper.getInstance(this.getApplicationContext());
+        dbHelper.addSongs(songList);
+
+        Intent intent = new Intent(this, GetSongsActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     // Get the song list from the device
