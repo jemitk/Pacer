@@ -25,6 +25,8 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.view.MenuItem;
 import android.view.View;
+import ddf.minim.*;
+import ddf.minim.analysis.*;
 
 public class MainActivity extends AppCompatActivity implements MediaPlayerControl {
     private ArrayList<Song> songList;
