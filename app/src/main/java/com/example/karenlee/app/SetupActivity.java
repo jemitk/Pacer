@@ -22,8 +22,9 @@ import android.os.IBinder;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.ServiceConnection;
+import android.support.v7.app.AppCompatActivity;
 
-public class SetupActivity extends ActionBarActivity implements MediaPlayerControl {
+public class SetupActivity extends AppCompatActivity implements MediaPlayerControl {
     private ArrayList<Song> songList;
     static final String EXTRA_SONGS = "com.example.karenlee.extras.EXTRA_SONGS";
     private ListView songView;

@@ -8,6 +8,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.MediaController;
@@ -26,6 +27,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
 
     private ArrayList<Long> bpms= new ArrayList<Long>();
     private MusicService musicSrv = new MusicService();
+    static final String TAG = "BPMMUSICFINDER";
     private MusicController controller;
     private int songIndex = 0;
     private int tapCounter = 0;
@@ -92,6 +94,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
         super.onCreate(savedInstanceState);
         mDbHelper = new SongBPMDbHelper(getApplicationContext());
         setContentView(R.layout.activity_bpmmusic_finder);
+
         findViewById(R.id.tapbutton).setOnTouchListener(new View.OnTouchListener(){
 
             @Override
@@ -128,9 +131,11 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     protected void onStart() {
         super.onStart();
         if(playIntent==null){
+            Log.d(TAG, "creating a play intent!");
             playIntent = new Intent(this, MusicService.class);
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             startService(playIntent);
+            Log.d(TAG, "player service started!");
         }
         playSong(songIndex);
     }
