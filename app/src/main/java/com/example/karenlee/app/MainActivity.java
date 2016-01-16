@@ -94,6 +94,9 @@ public class MainActivity extends AppCompatActivity implements MediaPlayerContro
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             startService(playIntent);
         }
+
+        goToBPM();
+        finish();
     }
 
     @Override
