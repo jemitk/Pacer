@@ -37,6 +37,11 @@ public class BPMRunFinderActivity extends AppCompatActivity {
     private static final int UI_ANIMATION_DELAY = 300;
 
     /**
+     * The amount of samples to hold in a snapshot.
+     */
+    private static final int SAMPLE_NUM = 200;
+
+    /**
      * The manager that you register all of the sensor objects with, handles their updates.
      */
     private SensorManager mSensorManager;
@@ -60,6 +65,7 @@ public class BPMRunFinderActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
     };
+
     private View mControlsView;
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
@@ -109,6 +115,7 @@ public class BPMRunFinderActivity extends AppCompatActivity {
                 float axisX = event.values[0];
                 float axisY = event.values[1];
                 float axisZ = event.values[2];
+
 
 
             }
