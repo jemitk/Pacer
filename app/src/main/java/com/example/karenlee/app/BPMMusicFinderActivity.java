@@ -2,11 +2,15 @@ package com.example.karenlee.app;
 
 
 import android.content.Intent;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.karenlee.app.db.SongBPMDbHelper;
+
 import java.util.*;
 
-public class BPMMusicFinderActivity extends AppCompatActivity {
+public class BPMMusicFinderActivity extends ActionBarActivity {
 
     private ArrayList<Double> bpms= new ArrayList<Double>();
     private MusicService musicSrv;
@@ -16,12 +20,14 @@ public class BPMMusicFinderActivity extends AppCompatActivity {
     private ArrayList<Song> songs;
     static final String EXTRA_BPM = "com.example.karenlee.extras.EXTRA_BPM";
 
+    private SongBPMDbHelper mDbHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bpmmusic_finder);
         Intent mainIntent = getIntent();
-        songs = (ArrayList<Song>)mainIntent.getSerializableExtra(MainActivity.EXTRA_SONGS);
+        songs = (ArrayList<Song>)mainIntent.getSerializableExtra(SetupActivity.EXTRA_SONGS);
     }
 
     public void playSong(int index){
@@ -50,7 +56,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity {
     }
 
     public void goToMain(){
-        Intent mainIntent = new Intent(this, MainActivity.class);
+        Intent mainIntent = new Intent(this, SetupActivity.class);
         mainIntent.putExtra(EXTRA_BPM, bpms);
         setResult(RESULT_OK, mainIntent);
         finish();
