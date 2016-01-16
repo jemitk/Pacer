@@ -95,6 +95,9 @@ public class SetupActivity extends ActionBarActivity implements MediaPlayerContr
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             startService(playIntent);
         }
+
+        goToBPM();
+        finish();
     }
 
     @Override
