@@ -20,6 +20,7 @@ public class MusicService extends Service implements
 
     //media player
     private MediaPlayer player;
+    static final String TAG = "MUSIC_SERVICE";
     //song list
     private ArrayList<Song> songs;
     //current position
@@ -28,14 +29,16 @@ public class MusicService extends Service implements
     private final IBinder musicBind = new MusicBinder();
 
     public void onCreate() {
+        Log.d(TAG, "music service gets created!");
         //create the service
         super.onCreate();
         //initialize position
         songPosn=0;
         //create player
         player = new MediaPlayer();
-
+        Log.d(TAG, "media player is created!");
         initMusicPlayer();
+        Log.d(TAG, "media player init called!");
     }
 
     public void initMusicPlayer(){
@@ -117,9 +120,10 @@ public class MusicService extends Service implements
     }
 
     public void playSong(){
+        Log.d(TAG, "play song called!");
         // reset the mediaplayer
         player.reset();
-
+        Log.d(TAG, "player reset!");
         // get the song from the list
         // get song
         Song playSong = songs.get(songPosn);
