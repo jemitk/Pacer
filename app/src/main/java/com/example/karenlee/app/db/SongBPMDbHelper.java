@@ -83,7 +83,7 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Song> getSongs() {
-        ArrayList<Song> songList = new ArrayList<Song>();
+        ArrayList<Song> songList = new ArrayList<>();
 
         // Select All Query
         String selectQuery =  "SELECT  * FROM " + SongBPMEntry.TABLE_NAME;
@@ -101,6 +101,7 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
                 songList.add(song);
             } while (cursor.moveToNext());
         }
+        cursor.close();
 
         db.close();
 

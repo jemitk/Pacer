@@ -2,14 +2,8 @@ package com.example.karenlee.app;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import java.util.ArrayList;
@@ -18,13 +12,6 @@ import java.util.Comparator;
 import android.net.Uri;
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.widget.ListView;
-import android.widget.MediaController.MediaPlayerControl;
-import android.os.IBinder;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.ServiceConnection;
-import android.support.v7.app.AppCompatActivity;
 
 import com.example.karenlee.app.db.SongBPMDbHelper;
 
@@ -44,7 +31,7 @@ public class SetupActivity extends AppCompatActivity {
         // retrieve the ListView instance using the ID we gave it in the main layout
         //songView = (ListView)findViewById(R.id.song_list);
         // instantiate the list
-        songList = new ArrayList<Song>();
+        songList = new ArrayList<>();
         getSongList();
 
         // sort the data alphabetically
@@ -105,20 +92,14 @@ public class SetupActivity extends AppCompatActivity {
                 long thisId = musicCursor.getLong(idColumn);
                 String thisTitle = musicCursor.getString(titleColumn);
                 String thisArtist = musicCursor.getString(artistColumn);
-                boolean thisIsMusic = Integer.parseInt(musicCursor.getString(isMusicColumn)) != 0 ? true : false;
+                boolean thisIsMusic = Integer.parseInt(musicCursor.getString(isMusicColumn)) != 0;
 
                 if (thisIsMusic)
                     songList.add(new Song(thisId, thisTitle, thisArtist));
             }
             while (musicCursor.moveToNext());
+            musicCursor.close();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        //stopService(playIntent);
-        //musicSrv=null;
-        super.onDestroy();
     }
 
     public void goToBPM(){
@@ -150,5 +131,6 @@ public class SetupActivity extends AppCompatActivity {
 
 
     }
+
 
 }

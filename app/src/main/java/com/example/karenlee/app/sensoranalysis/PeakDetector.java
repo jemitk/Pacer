@@ -62,26 +62,25 @@ public class PeakDetector {
         int n = 0;
         double M2 = 0;
         double delta;
-        for (int i = 0; i < S.length; i++) {
+        for (double value : S) {
             n = n + 1;
-            delta = S[i] - mean;
-            mean = mean + delta/n;
-            M2 = M2 + delta*(S[i] - mean) ;
+            delta = value - mean;
+            mean = mean + delta / n;
+            M2 = M2 + delta * (value - mean);
         }
 
         double variance = M2/(n - 1);
         double std = (float) Math.sqrt(variance);
 
         // Collect only large peaks
-        ArrayList<Integer> peakLocations = new ArrayList<Integer>();
-        for (int i = 0; i < S.length; i++) {
-            if (S[i] > 0 && (S[i]-mean) > stringency * std) {
+        ArrayList<Integer> peakLocations = new ArrayList<>();
+        for (int i = 0; i < S.length; i++)
+            if (S[i] > 0 && (S[i] - mean) > stringency * std) {
                 peakLocations.add(i);
             }
-        }
 
         // Remove peaks too close
-        ArrayList<Integer> toPrune = new ArrayList<Integer>();
+        ArrayList<Integer> toPrune = new ArrayList<>();
         int peak1, peak2, weakerPeak;
         for (int i = 0; i < peakLocations.size()-1; i++) {
             peak1 = peakLocations.get(i);

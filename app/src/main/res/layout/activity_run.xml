@@ -15,4 +15,13 @@
         android:id="@+id/textView"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Restart BPM"
+        android:id="@+id/button"
+        android:onClick="restartBPMCount"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/textView" />
 </RelativeLayout>
