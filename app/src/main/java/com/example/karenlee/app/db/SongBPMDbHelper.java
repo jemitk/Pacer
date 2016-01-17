@@ -102,6 +102,8 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        db.close();
+
         // return song list
         return songList;
     }

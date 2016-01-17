@@ -22,4 +22,10 @@ public class Song implements Serializable{
     public String toString() {
         return id + " " + title + " by " + artist;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return (this.title.equals(((Song)other).title) &&
+                this.artist.equals(((Song)other).artist));
+    }
 }

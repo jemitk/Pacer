@@ -26,6 +26,8 @@ import android.content.Context;
 import android.content.ServiceConnection;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.karenlee.app.db.SongBPMDbHelper;
+
 public class SetupActivity extends AppCompatActivity {
     static final String TAG = "SETUP_ACTIVITY";
 
@@ -129,6 +131,24 @@ public class SetupActivity extends AppCompatActivity {
     public void goToRunning() {
         Intent runIntent = new Intent(this, RunActivity.class);
         startActivity(runIntent);
+    }
+
+    public void compareToDb(ArrayList<Song> localSongList) {
+        SongBPMDbHelper dbHelper = SongBPMDbHelper.getInstance(this.getApplicationContext());
+        ArrayList<Song> dbSongList = dbHelper.getSongs();
+
+        ArrayList<Song> deleteSongList = new ArrayList<Song>();
+        ArrayList<Song> addSongList = new ArrayList<Song>();
+        ArrayList<Song> commonSongList = new ArrayList<Song>();
+
+        // Compute the difference
+        for (Song localSong : localSongList) {
+            if (dbSongList.contains(localSong))
+                commonSongList.add(localSong);
+        }
+
+
+
     }
 
 }
