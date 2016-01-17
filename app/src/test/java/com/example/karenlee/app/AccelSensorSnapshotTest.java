@@ -63,7 +63,15 @@ public class AccelSensorSnapshotTest {
 
     @Test
     public void testFindBpmSimple() {
-        throw new RuntimeException("Not implemented!");
+        ass = new AccelSensorSnapshot(3);
+        double[][] accel = {{0, 4., 0., 4.}, {0, -3, 0, -3}, {0, 5, 0, 5}};
+        double[] t = {0., 1_000., 2_000., 3_000.};
+
+        for (int i = 0; i < 3; i++) {
+            ass.addSample(t[i], accel[0][i], accel[1][i], accel[2][i]);
+        }
+
+        assertEquals(60, ass.findBPM(), 5);
     }
 
     @Test
