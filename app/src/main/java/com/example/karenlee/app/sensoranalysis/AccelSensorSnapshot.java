@@ -91,6 +91,11 @@ public class AccelSensorSnapshot {
         return currentSample == max;
     }
 
+    public void reset() {
+        // just call init
+        init();
+    }
+
     /**
      * Returns the BPM from the current snapshot it has. Won't let you get the BPM until the
      * snapshot is filled (will return -1 instead).
@@ -102,27 +107,31 @@ public class AccelSensorSnapshot {
             double[] x = a[0];
             double[] y = a[1];
             double[] z = a[2];
-            Log.d(TAG, Arrays.toString(x));
-            Log.d(TAG, Arrays.toString(y));
-            Log.d(TAG, Arrays.toString(z));
             double[] a_mag = new double[t.length];
             // Loop to find the overall acceleration magnitude of each sample
             for (int i = 0; i < t.length; i++) {
                 a_mag[i] = Math.sqrt(x[i] * x[i] + y[i] * y[i] + z[i] * z[i]);
             }
-            Log.d(TAG, Arrays.toString(a_mag));
+
             double a_mag_mean = mean(a_mag);
 
-            Log.d(TAG, "" + a_mag_mean);
+            Log.d(TAG, "Average magnitude: " + a_mag_mean);
 
             // normalize by the mean magnitude (gravity + overall running acceleration)
             for (int i = 0; i < t.length; i++) {
                 a_mag[i] -= a_mag_mean;
             }
-            Log.d(TAG, Arrays.toString(a_mag));
+
+            Log.d(TAG, "Magnitude: " + Arrays.toString(Arrays.copyOfRange(a_mag, 0, 10)));
 
             PeakDetector pd = new PeakDetector(a_mag);
-            int[] peakLocations = pd.process(15, standardDeviation(a_mag) * (2.0 / 3.0));
+            int[] peakLocations = pd.process(10, standardDeviation(a_mag) * (1.0 / 3.0));
+
+            if (peakLocations.length == 0) {
+                // we didn't find any peaks for some reason
+                Log.w(TAG, "No peaks in the current snapshot.");
+                return -1;
+            }
 
             // correlate the locations of the peaks to times.
             double[] peakTimes = new double[peakLocations.length];
@@ -156,7 +165,7 @@ public class AccelSensorSnapshot {
         double mean = mean(x);
         for(double a : x)
             temp += (mean-a)*(mean-a);
-        return temp/x.length;
+        return Math.sqrt(temp/x.length);
     }
 
     private static double mean(double[] x) {

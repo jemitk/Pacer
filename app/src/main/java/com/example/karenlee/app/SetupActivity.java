@@ -24,14 +24,9 @@ import android.content.Context;
 import android.content.ServiceConnection;
 import android.support.v7.app.AppCompatActivity;
 
-public class SetupActivity extends AppCompatActivity implements MediaPlayerControl {
+public class SetupActivity extends AppCompatActivity {
     private ArrayList<Song> songList;
     static final String EXTRA_SONGS = "com.example.karenlee.extras.EXTRA_SONGS";
-   // private ListView songView;
-    //private MusicController controller;
-    //private MusicService musicSrv;
-    //private Intent playIntent;
-    //private boolean musicBound=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,38 +64,12 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
 
         //setController();
     }
-    //connect to the service
-   /* private ServiceConnection musicConnection = new ServiceConnection(){
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            MusicService.MusicBinder binder = (MusicService.MusicBinder)service;
-            //get service
-            musicSrv = binder.getService();
-            //pass list
-            musicSrv.setList(songList);
-            musicBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            musicBound = false;
-        }
-    }; */
 
     @Override
     protected void onStart() {
         super.onStart();
-        /* if(playIntent==null){
-            playIntent = new Intent(this, MusicService.class);
-            bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
-            startService(playIntent);
-        } */
 
         goToBPM();
-
-        goToRunning();
-        finish();
     }
 
     @Override
@@ -112,17 +81,6 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.action_shuffle:
-                //shuffle
-                break;
-            case R.id.action_end:
-                //stopService(playIntent);
-                //musicSrv=null;
-                System.exit(0);
-                break;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -135,7 +93,7 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
         Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
 
         // iterate over the results
-        if(musicCursor!=null && musicCursor.moveToFirst()){
+        if (musicCursor != null && musicCursor.moveToFirst()) {
             //get columns
             int titleColumn = musicCursor.getColumnIndex
                     (android.provider.MediaStore.Audio.Media.TITLE);
@@ -155,101 +113,6 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
     }
 
     @Override
-    public void start() {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public int getDuration() {
-        return 0;
-    }
-
-    @Override
-    public int getCurrentPosition() {
-        return 0;
-    }
-
-    @Override
-    public void seekTo(int pos) {
-
-    }
-
-    @Override
-    public boolean isPlaying() {
-        return false;
-    }
-
-    @Override
-    public int getBufferPercentage() {
-        return 0;
-    }
-
-    @Override
-    public boolean canPause() {
-        return false;
-    }
-
-    @Override
-    public boolean canSeekBackward() {
-        return false;
-    }
-
-    @Override
-    public boolean canSeekForward() {
-        return false;
-    }
-
-    @Override
-    public int getAudioSessionId() {
-        return 0;
-    }
-
-    /*private void setController() {
-        // set the controller up
-        // we make a helper function since we need to set it up more than once in the life cycle of the app
-        controller = new MusicController(this);
-
-        // click listeners
-        controller.setPrevNextListeners(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playNext();
-            }
-        }, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                playPrev();
-            }
-        });
-
-        controller.setMediaPlayer(this);
-        controller.setAnchorView(findViewById(R.id.song_list));
-        controller.setEnabled(true);
-    } */
-
-    private void playNext() {
-
-    }
-
-    private void playPrev() {
-
-    }
-
-    public void proceedToTap(){
-
-    }
-
-    public void songPicked(View view){
-        //musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
-        //musicSrv.playSong();
-    }
-
-    @Override
     protected void onDestroy() {
         //stopService(playIntent);
         //musicSrv=null;
@@ -262,16 +125,17 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
         startActivityForResult(bpmIntent, 0);
     }
 
-    public void goToRunning() {
-        Intent runningIntent = new Intent(this, BPMRunFinderActivity.class);
-        startActivity(runningIntent);
+    public void goToMain() {
+        Intent mainIntent = new Intent(this, MainActivity.class);
+        startActivity(mainIntent);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent newItem){
         if (requestCode==0){
             if (resultCode==RESULT_OK){
                 //TODO: store into db bpm result from newItem.getStringExtra(some other thing here)
-                goToRunning();
+                // Go to the main screen
+                goToMain();
             }
         }
     }
