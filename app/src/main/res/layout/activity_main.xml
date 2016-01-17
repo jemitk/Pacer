@@ -4,14 +4,6 @@
 
     tools:context="com.example.karenlee.app.MainActivity">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView4"
-        android:src="@drawable/mainmenu"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -26,7 +18,7 @@
             android:id="@+id/buttonstart"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.56"
-            android:background="#01ffffff" />
+            android:background="#18d9e0" />
 
         <Button
             android:layout_width="match_parent"
@@ -45,5 +37,13 @@
             android:background="#01ffffff" />
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView4"
+        android:src="@drawable/mainmenu"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
