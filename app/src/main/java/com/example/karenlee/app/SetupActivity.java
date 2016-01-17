@@ -47,12 +47,13 @@ public class SetupActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        Log.i(TAG, "Added songs are " + addedSongList.toString());
+        Log.i(TAG, "Added songs are " + addedSongList.toString() + ", isSetup is " + isSetup);
         // If there are no songs to add to the database,
         if (addedSongList.size() == 0 || isSetup) {
             Log.i(TAG, "Songs already in DB; finishing the activity");
             finish();
         } else {
+            Log.i(TAG, "Starting Bpm");
             goToBPM();
             isSetup = true;
         }

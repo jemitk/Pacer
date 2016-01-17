@@ -3,11 +3,16 @@ package com.example.karenlee.app;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.karenlee.app.db.SongBPMDbHelper;
+
 public class MainActivity extends AppCompatActivity {
+
+    static final String TAG = "MAIN_ACTIVITY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void resetDatabase(View view) {
+        SongBPMDbHelper dbHelper = SongBPMDbHelper.getInstance(this.getApplicationContext());
+        dbHelper.resetDb();
+        Log.w(TAG, "Reset database");
+        Log.w(TAG, "After resetting the database, the items in db are: " + dbHelper.getSongs().toString());
     }
 
     @Override
