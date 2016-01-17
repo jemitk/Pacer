@@ -134,8 +134,14 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
         setController();
     }
 
+    public void prepareMusicSplash(){
+        Intent prepareIntent = new Intent(this, PrepareMusicSplash.class);
+        startActivity(prepareIntent);
+    }
+
     @Override
     protected void onStart() {
+        prepareMusicSplash();
         super.onStart();
         if(playIntent==null){
             Log.i(TAG, "creating a play intent!");
@@ -153,9 +159,8 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     }
 
     public void goToMain(){
-        Intent mainIntent = new Intent(this, SetupActivity.class);
-        mainIntent.putExtra(EXTRA_BPM, bpms);
-        setResult(RESULT_OK, mainIntent);
+        Intent mainIntent = new Intent(this, FinishUploadSplash.class);
+        startActivity(mainIntent);
         finish();
     }
 

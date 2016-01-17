@@ -37,7 +37,7 @@ public class SetupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        uploadsplash();
+
 
         setContentView(R.layout.activity_setup);
 
@@ -76,6 +76,7 @@ public class SetupActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        uploadsplash();
         goToBPM();
     }
 
@@ -130,12 +131,10 @@ public class SetupActivity extends AppCompatActivity {
         Intent bpmIntent = new Intent(this, BPMMusicFinderActivity.class);
         bpmIntent.putExtra(EXTRA_SONGS, songList);
         startActivity(bpmIntent);
+        finish();
     }
 
-    public void goToMain() {
-        Intent mainIntent = new Intent(this, MainActivity.class);
-        startActivity(mainIntent);
-    }
+
 
     public void goToRunning() {
         Intent runIntent = new Intent(this, RunActivity.class);
