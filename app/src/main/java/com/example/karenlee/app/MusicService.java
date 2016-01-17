@@ -1,14 +1,12 @@
 package com.example.karenlee.app;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import java.util.ArrayList;
 import android.content.ContentUris;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.PowerManager;
@@ -31,11 +29,11 @@ public class MusicService extends Service implements
     @Override
     public void onCreate() {
         Log.d(TAG, "music service gets created!");
-        //create the service
+        // create the service
         super.onCreate();
-        //initialize position
+        // initialize position
         songPosn=0;
-        //create player
+        // create player
         player = new MediaPlayer();
         Log.d(TAG, "media player is created!");
         initMusicPlayer();

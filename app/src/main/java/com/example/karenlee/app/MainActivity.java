@@ -1,20 +1,11 @@
 package com.example.karenlee.app;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
         });
         startMusicUpload();
     }
-
-
 
     public void startRun(){
         Intent runIntent = new Intent(this, PrepareStartSplash.class);

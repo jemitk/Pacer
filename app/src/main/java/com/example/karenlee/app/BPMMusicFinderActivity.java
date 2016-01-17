@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.MediaController;
 
-import java.util.*;
-
 import com.example.karenlee.app.db.SongBPMDbHelper;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class BPMMusicFinderActivity extends AppCompatActivity implements MediaController.MediaPlayerControl {
 
@@ -24,7 +26,6 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     private MusicService musicSrv;
     static final String TAG = "BPM_MUSIC_FINDER";
     private int numSongs;
-    private MusicController controller;
     private int songIndex = 0;
     private int tapCounter = 0;
     private long startTime = 0;
@@ -56,13 +57,14 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                 songs.add(new Song(thisId, thisTitle, thisArtist));
             }
             while (musicCursor.moveToNext());
+            musicCursor.close();
         }
     }
 
     private void setController() {
         // set the controller up
         // we make a helper function since we need to set it up more than once in the life cycle of the app
-        controller = new MusicController(this);
+        MusicController controller = new MusicController(this);
 
         // click listeners
         controller.setPrevNextListeners(new View.OnClickListener() {
@@ -152,8 +154,6 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                 }
             }
         });
-        Intent mainIntent = getIntent();
-        //songs = (ArrayList<Song>)mainIntent.getSerializableExtra(SetupActivity.EXTRA_SONGS);
         getSongs();
 
         // sort the data alphabetically

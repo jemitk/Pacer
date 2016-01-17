@@ -35,7 +35,6 @@ public class AccelSensorSnapshot {
      * Stores the given accelerometer sample in this data object, rejecting it if this object is
      * already filled.
      * @param time The system time in milliseconds (System.currentTimeMillis())
-     *             TODO(Bryce): adjust this to the time in location 0 if there is something there
      *             already
      * @param x The accelerometer measurement in the x direction (horizontal axis of phone,
      *          positive right side)
@@ -85,7 +84,7 @@ public class AccelSensorSnapshot {
     }
 
     /**
-     * @returns True if the accel matrix is equal to the max, false otherwise.
+     * @return True if the accel matrix is equal to the max, false otherwise.
      */
     public boolean isFull() {
         return currentSample == max;
