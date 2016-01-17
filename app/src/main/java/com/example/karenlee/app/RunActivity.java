@@ -33,7 +33,7 @@ public class RunActivity extends AppCompatActivity implements SensorEventListene
      ******************/
 
     /** The amount of samples to hold in a snapshot. */
-    private static final int SAMPLE_NUM = 2_000;
+    private static final int SAMPLE_NUM = 1_000;
 
     /** The aggregator for the bpm guesses. */
     private AccelSensorSnapshot snapshot = new AccelSensorSnapshot(SAMPLE_NUM);
@@ -80,7 +80,6 @@ public class RunActivity extends AppCompatActivity implements SensorEventListene
                 musicSrv = binder.getService();
                 Log.i(TAG, "Music service has been set:" + musicSrv);
                 //pass list
-                // TODO: use the db stuff to get songs!
                 musicSrv.setList(dynamicSongList);
                 musicBound = true;
             }
@@ -173,9 +172,13 @@ public class RunActivity extends AppCompatActivity implements SensorEventListene
                                     }
                                 }
                         );
-                        dynamicSongList.add(mDbHelper.getBpmSong(bpmGoal));
-                        musicSrv.setSong(0);
-                        musicSrv.playSong();
+                        try {
+                            dynamicSongList.add(mDbHelper.getBpmSong(bpmGoal));
+                            musicSrv.setSong(0);
+                            musicSrv.playSong();
+                        } catch (IllegalStateException ex) {
+                            Log.e(TAG, "Database was empty, no closest song to the bpm.", ex);
+                        }
                     }
                 }).run();
             }
@@ -189,7 +192,6 @@ public class RunActivity extends AppCompatActivity implements SensorEventListene
 
             snapshot.addSample((double) (System.currentTimeMillis() - start) / 1_000.0, axisX, axisY, axisZ);
 
-            // Randomly decide whether or not to try to
             if (!goldenGuess) {
                 runOnUiThread(
                         new Runnable() {

@@ -73,7 +73,7 @@
             android:name=".WorkoutMusicActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_workout_music"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme" />
     </application>
 
 </manifest>
