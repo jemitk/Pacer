@@ -33,7 +33,7 @@ public class RunActivity extends AppCompatActivity implements SensorEventListene
      ******************/
 
     /** The amount of samples to hold in a snapshot. */
-    private static final int SAMPLE_NUM = 2_000;
+    private static final int SAMPLE_NUM = 1_000;
 
     /** The aggregator for the bpm guesses. */
     private AccelSensorSnapshot snapshot = new AccelSensorSnapshot(SAMPLE_NUM);
