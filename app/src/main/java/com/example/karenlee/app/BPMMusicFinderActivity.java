@@ -1,12 +1,9 @@
 package com.example.karenlee.app;
 
 import android.content.ComponentName;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,8 +14,6 @@ import android.widget.MediaController;
 import com.example.karenlee.app.db.SongBPMDbHelper;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class BPMMusicFinderActivity extends AppCompatActivity implements MediaController.MediaPlayerControl {
 
@@ -33,33 +28,6 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     private Intent playIntent;
     static final String EXTRA_BPM = "com.example.karenlee.extras.EXTRA_BPM";
     private boolean musicBound=false;
-
-    private void getSongs() {
-        ContentResolver musicResolver = getContentResolver();
-        // retrieve the URI for external music files
-        Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
-
-        // iterate over the results
-        if (musicCursor != null && musicCursor.moveToFirst()) {
-            //get columns
-            int titleColumn = musicCursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media.TITLE);
-            int idColumn = musicCursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media._ID);
-            int artistColumn = musicCursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media.ARTIST);
-            //add songs to list
-            do {
-                long thisId = musicCursor.getLong(idColumn);
-                String thisTitle = musicCursor.getString(titleColumn);
-                String thisArtist = musicCursor.getString(artistColumn);
-                songs.add(new Song(thisId, thisTitle, thisArtist));
-            }
-            while (musicCursor.moveToNext());
-            musicCursor.close();
-        }
-    }
 
     private void setController() {
         // set the controller up
@@ -154,14 +122,8 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                 }
             }
         });
-        getSongs();
+        songs = (ArrayList<Song>) getIntent().getSerializableExtra(SetupActivity.EXTRA_SONGS);
 
-        // sort the data alphabetically
-        Collections.sort(songs, new Comparator<Song>() {
-            public int compare(Song a, Song b) {
-                return a.getTitle().compareTo(b.getTitle());
-            }
-        });
         String songString = "";
         for (Song s : songs) {
             songString += s.toString() + "\n";
