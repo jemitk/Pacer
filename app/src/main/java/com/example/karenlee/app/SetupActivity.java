@@ -2,6 +2,7 @@ package com.example.karenlee.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
@@ -24,6 +25,8 @@ import android.content.Context;
 import android.content.ServiceConnection;
 import android.support.v7.app.AppCompatActivity;
 
+import com.example.karenlee.app.db.SongBPMDbHelper;
+
 public class SetupActivity extends AppCompatActivity {
     private ArrayList<Song> songList;
     static final String EXTRA_SONGS = "com.example.karenlee.extras.EXTRA_SONGS";
@@ -36,8 +39,6 @@ public class SetupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
         setContentView(R.layout.activity_setup);
 
@@ -70,7 +71,11 @@ public class SetupActivity extends AppCompatActivity {
             }
         }); */
 
-        //setController();
+        // Helper class used to put data to the DB
+        SongBPMDbHelper dbHelper = SongBPMDbHelper.getInstance(this.getApplicationContext());
+        dbHelper.addSongs(songList);
+
+
     }
 
     @Override
@@ -109,12 +114,15 @@ public class SetupActivity extends AppCompatActivity {
                     (android.provider.MediaStore.Audio.Media._ID);
             int artistColumn = musicCursor.getColumnIndex
                     (android.provider.MediaStore.Audio.Media.ARTIST);
+            boolean isMusicColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.IS_MUSIC) == 0 ? false : true;
+
             //add songs to list
             do {
                 long thisId = musicCursor.getLong(idColumn);
                 String thisTitle = musicCursor.getString(titleColumn);
                 String thisArtist = musicCursor.getString(artistColumn);
-                songList.add(new Song(thisId, thisTitle, thisArtist));
+                if (isMusicColumn)
+                    songList.add(new Song(thisId, thisTitle, thisArtist));
             }
             while (musicCursor.moveToNext());
         }
