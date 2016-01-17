@@ -25,6 +25,13 @@ public class MainActivity extends AppCompatActivity {
                 startRun();
             }
         });
+        findViewById(R.id.buttonworkouts).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startWorkout();
+            }
+        });
         startMusicUpload();
     }
 
@@ -33,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(runIntent);
     }
 
+    public void startWorkout() {
+        Intent workoutIntent = new Intent(this, WorkoutsActivity.class);
+        startActivity(workoutIntent);
+    }
     public void startMusicUpload(){
         Intent setupIntent = new Intent(this, SetupActivity.class);
         startActivity(setupIntent);

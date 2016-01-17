@@ -49,7 +49,6 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:parentActivityName=".SetupActivity">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.karenlee.app.SetupActivity" />
@@ -64,7 +63,17 @@
 
         <activity android:name=".PrepareMusicSplash" />
         <activity android:name=".PrepareStartSplash" />
-        <activity android:name=".FinishUploadSplash"></activity>
+        <activity android:name=".FinishUploadSplash" />
+        <activity
+            android:name=".WorkoutsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_workouts"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".WorkoutMusicActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_workout_music"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>
