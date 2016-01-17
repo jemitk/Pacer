@@ -138,6 +138,9 @@ public class SetupActivity extends AppCompatActivity {
                 addedSongList.add(localSong);
         }
 
+        Log.i(TAG, "songs in local machine - " + localSongList.toString());
+        Log.i(TAG, "songs in database - " + dbHelper.getSongs().toString());
+        Log.i(TAG, "songs that should be added - " + addedSongList.toString());
         // get the delete song list
         for (Song dbSong: dbSongList) {
             if (!localSongList.contains(dbSong))
