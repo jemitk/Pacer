@@ -55,7 +55,7 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
         SongAdapter songAdt = new SongAdapter(this, songList);
         //songView.setAdapter(songAdt);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -65,7 +65,7 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        }); */
 
         //setController();
     }
@@ -98,6 +98,8 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
         } */
 
         goToBPM();
+
+        goToRunning();
         finish();
     }
 
@@ -260,10 +262,16 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
         startActivityForResult(bpmIntent, 0);
     }
 
+    public void goToRunning() {
+        Intent runningIntent = new Intent(this, BPMRunFinderActivity.class);
+        startActivity(runningIntent);
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent newItem){
         if (requestCode==0){
             if (resultCode==RESULT_OK){
                 //TODO: store into db bpm result from newItem.getStringExtra(some other thing here)
+                goToRunning();
             }
         }
     }
