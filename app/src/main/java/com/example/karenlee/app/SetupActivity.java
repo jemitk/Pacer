@@ -2,6 +2,7 @@ package com.example.karenlee.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
@@ -94,12 +95,18 @@ public class SetupActivity extends AppCompatActivity {
                     (android.provider.MediaStore.Audio.Media._ID);
             int artistColumn = musicCursor.getColumnIndex
                     (android.provider.MediaStore.Audio.Media.ARTIST);
+            int isMusicColumn = musicCursor.getColumnIndex(
+                    android.provider.MediaStore.Audio.Media.IS_MUSIC);
+
             //add songs to list
             do {
                 long thisId = musicCursor.getLong(idColumn);
                 String thisTitle = musicCursor.getString(titleColumn);
                 String thisArtist = musicCursor.getString(artistColumn);
-                songList.add(new Song(thisId, thisTitle, thisArtist));
+                boolean thisIsMusic = Integer.parseInt(musicCursor.getString(isMusicColumn)) != 0 ? true : false;
+
+                if (thisIsMusic)
+                    songList.add(new Song(thisId, thisTitle, thisArtist));
             }
             while (musicCursor.moveToNext());
         }
@@ -113,7 +120,7 @@ public class SetupActivity extends AppCompatActivity {
     }
 
     public void goToBPM(){
-        Log.i(TAG, "Sending intent to BPMMUsicFinderActivity");
+        Log.i(TAG, songList.toString());
         Intent bpmIntent = new Intent(this, BPMMusicFinderActivity.class);
         bpmIntent.putExtra(EXTRA_SONGS, songList);
         startActivity(bpmIntent);

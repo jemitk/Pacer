@@ -28,7 +28,7 @@ public final class SongBPMContract {
                     SongBPMEntry.COLUMN_NAME_SONG_ID + TEXT_TYPE + COMMA_SEP +
                     SongBPMEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
                     SongBPMEntry.COLUMN_NAME_ARTIST + TEXT_TYPE + COMMA_SEP +
-                    SongBPMEntry.COLUMN_NAME_BPM + REAL_TYPE + COMMA_SEP +
+                    SongBPMEntry.COLUMN_NAME_BPM + REAL_TYPE +
             " )";
 
     public static final String SQL_DELETE_ENTRIES =
