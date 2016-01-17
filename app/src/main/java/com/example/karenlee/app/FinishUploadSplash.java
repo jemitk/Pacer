@@ -9,5 +9,12 @@ public class FinishUploadSplash extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finish_upload_splash);
+
+
+        returntoMain();
+    }
+
+    public void returntoMain(){
+        finish();
     }
 }

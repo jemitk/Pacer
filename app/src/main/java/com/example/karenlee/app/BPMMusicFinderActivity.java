@@ -20,7 +20,7 @@ import com.example.karenlee.app.db.SongBPMDbHelper;
 
 public class BPMMusicFinderActivity extends AppCompatActivity implements MediaController.MediaPlayerControl {
 
-    private ArrayList<Long> bpms= new ArrayList<Long>();
+    private ArrayList<Long> bpms= new ArrayList<>();
     private MusicService musicSrv;
     static final String TAG = "BPM_MUSIC_FINDER";
     private int numSongs;
@@ -171,8 +171,14 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
         setController();
     }
 
+    public void prepareMusicSplash(){
+        Intent prepareIntent = new Intent(this, PrepareMusicSplash.class);
+        startActivity(prepareIntent);
+    }
+
     @Override
     protected void onStart() {
+        prepareMusicSplash();
         super.onStart();
         if(playIntent == null){
             Log.i(TAG, "creating a play intent!");
