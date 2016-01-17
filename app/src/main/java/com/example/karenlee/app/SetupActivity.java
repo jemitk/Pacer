@@ -130,6 +130,10 @@ public class SetupActivity extends AppCompatActivity {
         }
 
         dbHelper.deleteSongs(deleteSongList);
-        dbHelper.addSongs(addedSongList);
+
+        // no need to add songs;
+        // the addedSongList gets sent to the BPMMusicFinderActivity
+        // and the BPMMusicFinderActivity adds the songs to the db with the bpm
+        //dbHelper.addSongs(addedSongList);
     }
 }
