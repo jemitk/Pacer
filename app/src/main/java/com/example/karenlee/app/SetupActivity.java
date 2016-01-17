@@ -49,7 +49,7 @@ public class SetupActivity extends AppCompatActivity {
     protected void onStart() {
         Log.i(TAG, "Added songs are " + addedSongList.toString());
         // If there are no songs to add to the database,
-        if (addedSongList.size() == 0 && isSetup) {
+        if (addedSongList.size() == 0 || isSetup) {
             Log.i(TAG, "Songs already in DB; finishing the activity");
             finish();
         } else {
@@ -137,6 +137,9 @@ public class SetupActivity extends AppCompatActivity {
                 addedSongList.add(localSong);
         }
 
+        Log.i(TAG, "songs in local machine - " + localSongList.toString());
+        Log.i(TAG, "songs in database - " + dbHelper.getSongs().toString());
+        Log.i(TAG, "songs that should be added - " + addedSongList.toString());
         // get the delete song list
         for (Song dbSong: dbSongList) {
             if (!localSongList.contains(dbSong))
