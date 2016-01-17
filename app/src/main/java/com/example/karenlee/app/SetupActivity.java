@@ -130,12 +130,17 @@ public class SetupActivity extends AppCompatActivity {
         startActivity(mainIntent);
     }
 
+    public void goToRunning() {
+        Intent runIntent = new Intent(this, RunActivity.class);
+        startActivity(runIntent);
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent newItem){
         if (requestCode==0){
             if (resultCode==RESULT_OK){
                 //TODO: store into db bpm result from newItem.getStringExtra(some other thing here)
                 // Go to the main screen
-                goToMain();
+                goToRunning();
             }
         }
     }

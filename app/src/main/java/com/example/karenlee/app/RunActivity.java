@@ -53,6 +53,7 @@ public class RunActivity extends AppCompatActivity {
                     TextView text = (TextView) findViewById(R.id.textView);
                     text.setText("BPM: " + snapshot.findBPM());
                     snapshot.reset();
+                    start = System.currentTimeMillis();
                 } else {
                     // add another sample to the snapshot!
                     float axisX = event.values[0];
@@ -67,7 +68,7 @@ public class RunActivity extends AppCompatActivity {
                 // blank for now
                 // TODO(Bryce): find out what this method should actually do.
             }
-        }, accelSensor, 100);
+        }, accelSensor, 10);
 
     }
 

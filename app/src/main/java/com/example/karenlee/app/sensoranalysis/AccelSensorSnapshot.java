@@ -125,7 +125,7 @@ public class AccelSensorSnapshot {
             Log.d(TAG, "Magnitude: " + Arrays.toString(Arrays.copyOfRange(a_mag, 0, 10)));
 
             PeakDetector pd = new PeakDetector(a_mag);
-            int[] peakLocations = pd.process(10, standardDeviation(a_mag) * (1.0 / 3.0));
+            int[] peakLocations = pd.process(8, 1);
 
             if (peakLocations.length == 0) {
                 // we didn't find any peaks for some reason
