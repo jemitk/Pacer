@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.example.karenlee.app.SetupActivity"
-    android:background="#58ecee">
+    android:background="#27d7d5">
 
 
     <ImageView
