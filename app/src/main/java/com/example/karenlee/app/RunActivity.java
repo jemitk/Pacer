@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.karenlee.app.sensoranalysis.AccelSensorSnapshot;
@@ -19,7 +20,7 @@ public class RunActivity extends AppCompatActivity {
     /**
      * The amount of samples to hold in a snapshot.
      */
-    private static final int SAMPLE_NUM = 200;
+    private static final int SAMPLE_NUM = 2000;
 
     /**
      * The manager that you register all of the sensor objects with, handles their updates.
@@ -60,7 +61,7 @@ public class RunActivity extends AppCompatActivity {
                     float axisY = event.values[1];
                     float axisZ = event.values[2];
 
-                    snapshot.addSample((double) System.currentTimeMillis() - start, axisX, axisY, axisZ);
+                    snapshot.addSample((double) (System.currentTimeMillis() - start)/1000.0, axisX, axisY, axisZ);
                 }
             }
 
@@ -68,7 +69,7 @@ public class RunActivity extends AppCompatActivity {
                 // blank for now
                 // TODO(Bryce): find out what this method should actually do.
             }
-        }, accelSensor, 10);
+        }, accelSensor, 10_000);
 
     }
 
@@ -92,5 +93,12 @@ public class RunActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void restartBPMCount(View view) {
+        TextView text = (TextView) findViewById(R.id.textView);
+        text.setText("Calculating");
+        snapshot.reset();
+        start = System.currentTimeMillis();
     }
 }
