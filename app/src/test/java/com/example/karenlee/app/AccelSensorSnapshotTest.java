@@ -3,6 +3,7 @@ package com.example.karenlee.app;
 import static org.junit.Assert.*;
 
 import com.example.karenlee.app.sensoranalysis.AccelSensorSnapshot;
+import com.example.karenlee.app.sensoranalysis.PeakDetector;
 
 import org.junit.Test;
 
@@ -67,7 +68,12 @@ public class AccelSensorSnapshotTest {
 
     @Test
     public void testFindBpmAdvanced() {
-        throw new RuntimeException("Not implemented!");
+        double[] a = {4,2,1,3,2,2};
+        PeakDetector p = new PeakDetector(a);
+        p.process(3,1);
+        System.out.println(p.process(3,1));
+
     }
+
 
 }
