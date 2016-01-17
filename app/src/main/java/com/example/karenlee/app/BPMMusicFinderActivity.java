@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.MediaController;
+import android.widget.Toast;
 
 import com.example.karenlee.app.db.SongBPMContract;
 import com.example.karenlee.app.db.SongBPMDbHelper;
@@ -99,9 +100,13 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                 if (tapCounter == 0) {
                     startTime = System.currentTimeMillis();
                 }
+                if (tapCounter == 7) {
+                    (Toast.makeText(getApplicationContext(), "2 more taps left!", Toast.LENGTH_SHORT)).show();
+                }
                 //If this is the last tap for the song
                 if (tapCounter == 9) {
-
+                    // throw up a toast: new song
+                    (Toast.makeText(getApplicationContext(), "Got it! Proceeding to next song.", Toast.LENGTH_SHORT)).show();
                     long endTime = System.currentTimeMillis();
                     long timeSpan = endTime - startTime;
                     long bpm = 600000 / timeSpan;
@@ -111,13 +116,14 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
 
                     tapCounter = 0;
                     songIndex++;
-                    if (songIndex >= songs.size() - 1) {
+                    if (songIndex >= songs.size()) {
                         // we're all done with the songs!
                         Log.i(TAG, "Finished all songs, returning to setup.");
                         putToDb();
                         goToMain();
+                    } else {
+                        playSong(songIndex);
                     }
-                    playSong(songIndex);
                 } else {
                     //All other cases
                     tapCounter++;
