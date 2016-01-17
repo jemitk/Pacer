@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.karenlee.app" >
+    package="com.example.karenlee.app">
     '
     <!-- ' permission to let music playback ' -->
     '
@@ -18,10 +18,11 @@
         android:launchMode="singleTop"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".LogoActivity"
-            android:theme="@style/SplashTheme" >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,8 +31,7 @@
         </activity>
         <activity
             android:name=".SetupActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,16 +44,27 @@
         <activity android:name=".BPMMusicFinderActivity" />
         <activity
             android:name=".RunActivity"
-            android:label="@string/title_activity_run" >
-        </activity>
+            android:label="@string/title_activity_run" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:parentActivityName=".SetupActivity" >
+            android:parentActivityName=".SetupActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar.Fullscreen">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.karenlee.app.SetupActivity" />
         </activity>
+        <!--
+             ATTENTION: This was auto-generated to add Google Play services to your project for
+             App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".PrepareMusicSplash" />
+        <activity android:name=".PrepareStartSplash" />
+        <activity android:name=".FinishUploadSplash"></activity>
     </application>
 
 </manifest>

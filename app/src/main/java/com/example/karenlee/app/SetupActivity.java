@@ -28,9 +28,17 @@ public class SetupActivity extends AppCompatActivity {
     private ArrayList<Song> songList;
     static final String EXTRA_SONGS = "com.example.karenlee.extras.EXTRA_SONGS";
 
+    public void uploadsplash(){
+        Intent splashIntent = new Intent(this, PrepareMusicSplash.class);
+        startActivity(splashIntent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        uploadsplash();
+
         setContentView(R.layout.activity_setup);
 
         // retrieve the ListView instance using the ID we gave it in the main layout
@@ -47,7 +55,7 @@ public class SetupActivity extends AppCompatActivity {
         });
 
         // set the adapter
-        SongAdapter songAdt = new SongAdapter(this, songList);
+        //SongAdapter songAdt = new SongAdapter(this, songList);
         //songView.setAdapter(songAdt);
 
        /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -68,7 +76,6 @@ public class SetupActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
         goToBPM();
     }
 
@@ -122,7 +129,7 @@ public class SetupActivity extends AppCompatActivity {
     public void goToBPM(){
         Intent bpmIntent = new Intent(this, BPMMusicFinderActivity.class);
         bpmIntent.putExtra(EXTRA_SONGS, songList);
-        startActivityForResult(bpmIntent, 0);
+        startActivity(bpmIntent);
     }
 
     public void goToMain() {
