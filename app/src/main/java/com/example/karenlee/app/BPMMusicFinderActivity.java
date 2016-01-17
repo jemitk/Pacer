@@ -150,7 +150,13 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
             startService(playIntent);
             Log.i(TAG, "player service started!");
         } else
-        playSong(songIndex);
+            playSong(songIndex);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbindService(musicConnection);
     }
 
     public void playSong(int index){
