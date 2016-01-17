@@ -35,6 +35,13 @@ public class SetupActivity extends AppCompatActivity {
         localSongList = new ArrayList<>();
         getSongList();
 
+        // sort the data alphabetically
+        Collections.sort(localSongList, new Comparator<Song>() {
+            public int compare(Song a, Song b) {
+                return a.getTitle().compareTo(b.getTitle());
+            }
+        });
+
         compareToDb(localSongList);
     }
 
