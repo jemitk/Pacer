@@ -28,6 +28,7 @@ public class MusicService extends Service implements
 
     private final IBinder musicBind = new MusicBinder();
 
+    @Override
     public void onCreate() {
         Log.d(TAG, "music service gets created!");
         //create the service
@@ -122,6 +123,12 @@ public class MusicService extends Service implements
     public void playSong(){
         Log.d(TAG, "play song called!");
         // reset the mediaplayer
+        // make sure we actually have a media player
+        if (player == null) {
+            player = new MediaPlayer();
+            initMusicPlayer();
+        }
+
         player.reset();
         Log.d(TAG, "player reset!");
         // get the song from the list

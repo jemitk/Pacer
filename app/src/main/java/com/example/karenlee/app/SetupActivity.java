@@ -27,11 +27,11 @@ import android.support.v7.app.AppCompatActivity;
 public class SetupActivity extends AppCompatActivity implements MediaPlayerControl {
     private ArrayList<Song> songList;
     static final String EXTRA_SONGS = "com.example.karenlee.extras.EXTRA_SONGS";
-    private ListView songView;
-    private MusicController controller;
-    private MusicService musicSrv;
-    private Intent playIntent;
-    private boolean musicBound=false;
+   // private ListView songView;
+    //private MusicController controller;
+    //private MusicService musicSrv;
+    //private Intent playIntent;
+    //private boolean musicBound=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
         setContentView(R.layout.activity_setup);
 
         // retrieve the ListView instance using the ID we gave it in the main layout
-        songView = (ListView)findViewById(R.id.song_list);
+        //songView = (ListView)findViewById(R.id.song_list);
         // instantiate the list
         songList = new ArrayList<Song>();
         getSongList();
@@ -53,7 +53,7 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
 
         // set the adapter
         SongAdapter songAdt = new SongAdapter(this, songList);
-        songView.setAdapter(songAdt);
+        //songView.setAdapter(songAdt);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,10 +67,10 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
             }
         });
 
-        setController();
+        //setController();
     }
     //connect to the service
-    private ServiceConnection musicConnection = new ServiceConnection(){
+   /* private ServiceConnection musicConnection = new ServiceConnection(){
 
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -86,19 +86,19 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
         public void onServiceDisconnected(ComponentName name) {
             musicBound = false;
         }
-    };
+    }; */
 
     @Override
     protected void onStart() {
         super.onStart();
-        if(playIntent==null){
+        /* if(playIntent==null){
             playIntent = new Intent(this, MusicService.class);
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             startService(playIntent);
-        }
+        } */
 
-        //goToBPM();
-        //finish();
+        goToBPM();
+        finish();
     }
 
     @Override
@@ -110,27 +110,14 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /**
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-         **/
 
         switch (item.getItemId()) {
             case R.id.action_shuffle:
                 //shuffle
                 break;
             case R.id.action_end:
-                stopService(playIntent);
-                musicSrv=null;
+                //stopService(playIntent);
+                //musicSrv=null;
                 System.exit(0);
                 break;
         }
@@ -220,7 +207,7 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
         return 0;
     }
 
-    private void setController() {
+    /*private void setController() {
         // set the controller up
         // we make a helper function since we need to set it up more than once in the life cycle of the app
         controller = new MusicController(this);
@@ -241,7 +228,7 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
         controller.setMediaPlayer(this);
         controller.setAnchorView(findViewById(R.id.song_list));
         controller.setEnabled(true);
-    }
+    } */
 
     private void playNext() {
 
@@ -256,14 +243,14 @@ public class SetupActivity extends AppCompatActivity implements MediaPlayerContr
     }
 
     public void songPicked(View view){
-        musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
-        musicSrv.playSong();
+        //musicSrv.setSong(Integer.parseInt(view.getTag().toString()));
+        //musicSrv.playSong();
     }
 
     @Override
     protected void onDestroy() {
-        stopService(playIntent);
-        musicSrv=null;
+        //stopService(playIntent);
+        //musicSrv=null;
         super.onDestroy();
     }
 

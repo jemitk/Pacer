@@ -1,6 +1,5 @@
 package com.example.karenlee.app;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -14,20 +13,14 @@ import android.view.View;
 import android.widget.MediaController;
 
 import java.util.*;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
 
 import com.example.karenlee.app.db.SongBPMDbHelper;
-
-import java.util.*;
 
 public class BPMMusicFinderActivity extends AppCompatActivity implements MediaController.MediaPlayerControl {
 
     private ArrayList<Long> bpms= new ArrayList<Long>();
-    private MusicService musicSrv = new MusicService();
-    static final String TAG = "BPMMUSICFINDER";
+    private MusicService musicSrv;
+    static final String TAG = "BPM_MUSIC_FINDER";
     private MusicController controller;
     private int songIndex = 0;
     private int tapCounter = 0;
@@ -76,6 +69,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
             MusicService.MusicBinder binder = (MusicService.MusicBinder)service;
             //get service
             musicSrv = binder.getService();
+            Log.i(TAG, "Music service has been set:" + musicSrv);
             //pass list
             musicSrv.setList(songs);
             musicBound = true;
@@ -93,12 +87,13 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDbHelper = new SongBPMDbHelper(getApplicationContext());
-        setContentView(R.layout.activity_bpmmusic_finder);
+        setContentView(R.layout.activity_bpm_music_finder);
 
         findViewById(R.id.tapbutton).setOnTouchListener(new View.OnTouchListener(){
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                Log.d(TAG, "User has touched the button");
                 //If this is the first tap for the song
                 if (tapCounter == 0){
                     startTime = System.currentTimeMillis();
@@ -109,11 +104,17 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                     long endTime = System.currentTimeMillis();
                     long timeSpan = endTime - startTime;
                     long bpm = 600000/timeSpan;
+                    Log.i(TAG, "Estimated BPM of song: " + bpm);
                     //TODO: store directly to db
                     bpms.add(songIndex, bpm);
 
                     tapCounter = 0;
                     songIndex++;
+                    if (songIndex >= songs.size() - 1) {
+                        // we're all done with the songs!
+                        Log.i(TAG, "Finished all songs, returning to setup.");
+                        goToMain();
+                    }
                     playSong(songIndex);
                 }else{
                     //All other cases
@@ -124,6 +125,11 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
         });
         Intent mainIntent = getIntent();
         songs = (ArrayList<Song>)mainIntent.getSerializableExtra(SetupActivity.EXTRA_SONGS);
+        String songString = "";
+        for (Song s : songs) {
+            songString += s.toString() + "\n";
+        }
+        Log.d(TAG, "Dumping songs passed in: " + songString);
         setController();
     }
 
@@ -131,16 +137,15 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     protected void onStart() {
         super.onStart();
         if(playIntent==null){
-            Log.d(TAG, "creating a play intent!");
+            Log.i(TAG, "creating a play intent!");
             playIntent = new Intent(this, MusicService.class);
             bindService(playIntent, musicConnection, Context.BIND_AUTO_CREATE);
             startService(playIntent);
-            Log.d(TAG, "player service started!");
-        }
+            Log.i(TAG, "player service started!");
+        } else
         playSong(songIndex);
     }
 
-    //TODO: set up the music server
     public void playSong(int index){
         musicSrv.setSong(index);
         musicSrv.playSong();
