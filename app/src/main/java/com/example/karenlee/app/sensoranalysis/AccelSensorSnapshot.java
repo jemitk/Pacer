@@ -12,7 +12,6 @@ public class AccelSensorSnapshot {
 
     private static final String TAG = "ACCEL_SNAPSHOT_OBJECT";
 
-    // TODO(Bryce): consider changing these to ArrayLists for easier management iff too many bugs
     private double[][] accelDataMatrix;
     private double[] timeDataVector;
 
@@ -21,7 +20,6 @@ public class AccelSensorSnapshot {
 
     public AccelSensorSnapshot(int sampleNum) {
         max = sampleNum;
-        // seperated in case we want to just use this same object.
         init();
     }
 
@@ -91,7 +89,6 @@ public class AccelSensorSnapshot {
     }
 
     public void reset() {
-        // just call init
         init();
     }
 
@@ -100,63 +97,74 @@ public class AccelSensorSnapshot {
      * snapshot is filled (will return -1 instead).
      */
     public double findBPM() {
+        double[] t;
+        double[][] a;
         if (isFull()) {
-            double[] t = timeDataVector;
-            double[][] a = accelDataMatrix;
-            double[] x = a[0];
-            double[] y = a[1];
-            double[] z = a[2];
-            double[] a_mag = new double[t.length];
-            // Loop to find the overall acceleration magnitude of each sample
-            for (int i = 0; i < t.length; i++) {
-                a_mag[i] = Math.sqrt(x[i] * x[i] + y[i] * y[i] + z[i] * z[i]);
-            }
-
-            double a_mag_mean = mean(a_mag);
-
-            Log.d(TAG, "Average magnitude: " + a_mag_mean);
-
-            // normalize by the mean magnitude (gravity + overall running acceleration)
-            for (int i = 0; i < t.length; i++) {
-                a_mag[i] -= a_mag_mean;
-            }
-
-            Log.d(TAG, "Magnitude: " + Arrays.toString(Arrays.copyOfRange(a_mag, 0, 10)));
-
-            PeakDetector pd = new PeakDetector(a_mag);
-            int[] peakLocations = pd.process(8, 1);
-
-            if (peakLocations.length == 0) {
-                // we didn't find any peaks for some reason
-                Log.w(TAG, "No peaks in the current snapshot.");
-                return -1;
-            }
-
-            // correlate the locations of the peaks to times.
-            double[] peakTimes = new double[peakLocations.length];
-            for (int i = 0; i < peakTimes.length; i++) {
-                peakTimes[i] = t[peakLocations[i]];
-            }
-
-            // difference vectors
-            double[] peakDiffs = new double[peakTimes.length - 1];
-            double diffSum = 0.0;
-            for (int i = 0; i < peakTimes.length - 1; i++) {
-                peakDiffs[i] = peakTimes[i + 1] - peakTimes[i];
-                diffSum += peakDiffs[i];
-            }
-
-            // average distance between maxima
-            double avgPeakDistance = diffSum / peakDiffs.length;
-
-            // extrapolate BPM from the average distance
-            return 60.0 / avgPeakDistance;
+            t = timeDataVector;
+            a = accelDataMatrix;
         } else {
-            // not enough samples!
-            Log.e(TAG, "Not enough samples to find the BPM. Current: " + (currentSample - 1) +
-                    ", necessary: " + max);
+            // check if there are enough samples, say more than 100.
+            if (currentSample >= 100) {
+                // take a sub-array.
+                t = Arrays.copyOfRange(timeDataVector, 0, currentSample);
+                a = new double[3][currentSample];
+                for (int i = 0; i < 3; i++) {
+                    a[i] = Arrays.copyOfRange(accelDataMatrix[i], 0, currentSample);
+                }
+            } else {
+                Log.e(TAG, "Not enough samples to find the BPM. Current: " + (currentSample - 1) +
+                        ", necessary: " + max);
+                return -2;
+            }
+        }
+        double[] x = a[0];
+        double[] y = a[1];
+        double[] z = a[2];
+        double[] a_mag = new double[t.length];
+        // Loop to find the overall acceleration magnitude of each sample
+        for (int i = 0; i < t.length; i++) {
+            a_mag[i] = Math.sqrt(x[i] * x[i] + y[i] * y[i] + z[i] * z[i]);
+        }
+
+        double a_mag_mean = mean(a_mag);
+
+        Log.d(TAG, "Average magnitude: " + a_mag_mean);
+
+        // normalize by the mean magnitude (gravity + overall running acceleration)
+        for (int i = 0; i < t.length; i++) {
+            a_mag[i] -= a_mag_mean;
+        }
+
+        Log.d(TAG, "Magnitude: " + Arrays.toString(Arrays.copyOfRange(a_mag, 0, 10)));
+
+        PeakDetector pd = new PeakDetector(a_mag);
+        int[] peakLocations = pd.process(8, 1);
+
+        if (peakLocations.length == 0) {
+            // we didn't find any peaks for some reason
+            Log.w(TAG, "No peaks in the current snapshot.");
             return -1;
         }
+
+        // correlate the locations of the peaks to times.
+        double[] peakTimes = new double[peakLocations.length];
+        for (int i = 0; i < peakTimes.length; i++) {
+            peakTimes[i] = t[peakLocations[i]];
+        }
+
+        // difference vectors
+        double[] peakDiffs = new double[peakTimes.length - 1];
+        double diffSum = 0.0;
+        for (int i = 0; i < peakTimes.length - 1; i++) {
+            peakDiffs[i] = peakTimes[i + 1] - peakTimes[i];
+            diffSum += peakDiffs[i];
+        }
+
+        // average distance between maxima
+        double avgPeakDistance = diffSum / peakDiffs.length;
+
+        // extrapolate BPM from the average distance
+        return 60.0 / avgPeakDistance;
     }
 
     private static double standardDeviation(double[] x) {
