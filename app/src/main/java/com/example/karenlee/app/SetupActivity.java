@@ -19,7 +19,8 @@ public class SetupActivity extends AppCompatActivity {
     static final String TAG = "SETUP_ACTIVITY";
 
     private boolean isSetup = false;
-    private ArrayList<Song> songList;
+    private ArrayList<Song> localSongList;
+    private ArrayList<Song> addedSongList = new ArrayList<Song>();
     static final String EXTRA_SONGS = "com.example.karenlee.extras.EXTRA_SONGS";
 
     @Override
@@ -31,27 +32,23 @@ public class SetupActivity extends AppCompatActivity {
         // retrieve the ListView instance using the ID we gave it in the main layout
         //songView = (ListView)findViewById(R.id.song_list);
         // instantiate the list
-        songList = new ArrayList<>();
+        localSongList = new ArrayList<>();
         getSongList();
 
-        // sort the data alphabetically
-        Collections.sort(songList, new Comparator<Song>() {
-            public int compare(Song a, Song b) {
-                return a.getTitle().compareTo(b.getTitle());
-            }
-        });
+        compareToDb(localSongList);
     }
 
     @Override
     protected void onStart() {
-        Log.i(TAG, "Starting the activity, isSetup boolean is " + isSetup);
-        if (isSetup) {
-            Log.i(TAG, "Finishing the activity");
+        Log.i(TAG, "Added songs are " + addedSongList.toString());
+        // If there are no songs to add to the database,
+        if (addedSongList.size() == 0) {
+            Log.i(TAG, "Songs already in DB; finishing the activity");
             finish();
         } else {
             goToBPM();
-            isSetup = true;
         }
+
         super.onStart();
     }
 
@@ -95,7 +92,7 @@ public class SetupActivity extends AppCompatActivity {
                 boolean thisIsMusic = Integer.parseInt(musicCursor.getString(isMusicColumn)) != 0;
 
                 if (thisIsMusic)
-                    songList.add(new Song(thisId, thisTitle, thisArtist));
+                    localSongList.add(new Song(thisId, thisTitle, thisArtist));
             }
             while (musicCursor.moveToNext());
             musicCursor.close();
@@ -103,9 +100,9 @@ public class SetupActivity extends AppCompatActivity {
     }
 
     public void goToBPM(){
-        Log.i(TAG, songList.toString());
+        Log.i(TAG, addedSongList.toString());
         Intent bpmIntent = new Intent(this, BPMMusicFinderActivity.class);
-        bpmIntent.putExtra(EXTRA_SONGS, songList);
+        bpmIntent.putExtra(EXTRA_SONGS, addedSongList);
         startActivity(bpmIntent);
     }
 
@@ -119,18 +116,20 @@ public class SetupActivity extends AppCompatActivity {
         ArrayList<Song> dbSongList = dbHelper.getSongs();
 
         ArrayList<Song> deleteSongList = new ArrayList<Song>();
-        ArrayList<Song> addSongList = new ArrayList<Song>();
-        ArrayList<Song> commonSongList = new ArrayList<Song>();
 
-        // Compute the difference
+        // Get the add song list
         for (Song localSong : localSongList) {
-            if (dbSongList.contains(localSong))
-                commonSongList.add(localSong);
+            if (!dbSongList.contains(localSong))
+                addedSongList.add(localSong);
         }
 
+        // get the delete song list
+        for (Song dbSong: dbSongList) {
+            if (!localSongList.contains(dbSong))
+                deleteSongList.add(dbSong);
+        }
 
-
+        dbHelper.deleteSongs(deleteSongList);
+        dbHelper.addSongs(addedSongList);
     }
-
-
 }

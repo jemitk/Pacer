@@ -86,7 +86,7 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
         ArrayList<Song> songList = new ArrayList<>();
 
         // Select All Query
-        String selectQuery =  "SELECT  * FROM " + SongBPMEntry.TABLE_NAME;
+        String selectQuery = "SELECT  * FROM " + SongBPMEntry.TABLE_NAME;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -107,5 +107,29 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
 
         // return song list
         return songList;
+    }
+
+    // cannot be used separately. a private function
+    private void deleteSong(SQLiteDatabase db, Song song) {
+        // Define where clause
+        String selection = " ? EQUALS ? AND ? EQUALS ?";
+        String[] selectionArgs = {SongBPMEntry.COLUMN_NAME_ARTIST,
+                song.getArtist(),
+                SongBPMEntry.COLUMN_NAME_TITLE,
+                song.getTitle()};
+
+        // Issue SQL statement.
+        db.delete(SongBPMEntry.TABLE_NAME, selection, selectionArgs);
+    }
+
+    public void deleteSongs(ArrayList<Song> songs) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // delete each song from the file
+        for (Song song : songs) {
+            deleteSong(db, song);
+        }
+
+        db.close();
     }
 }
