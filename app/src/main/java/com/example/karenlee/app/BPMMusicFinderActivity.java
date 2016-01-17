@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,7 +27,8 @@ import java.util.*;
 public class BPMMusicFinderActivity extends AppCompatActivity implements MediaController.MediaPlayerControl {
 
     private ArrayList<Long> bpms= new ArrayList<Long>();
-    private MusicService musicSrv = new MusicService();
+    private int numSongs;
+    private MusicService musicSrv;
     static final String TAG = "BPMMUSICFINDER";
     private MusicController controller;
     private int songIndex = 0;
@@ -94,7 +96,6 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
         super.onCreate(savedInstanceState);
         mDbHelper = new SongBPMDbHelper(getApplicationContext());
         setContentView(R.layout.activity_bpmmusic_finder);
-
         findViewById(R.id.tapbutton).setOnTouchListener(new View.OnTouchListener(){
 
             @Override
@@ -124,6 +125,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
         });
         Intent mainIntent = getIntent();
         songs = (ArrayList<Song>)mainIntent.getSerializableExtra(SetupActivity.EXTRA_SONGS);
+        numSongs = songs.size();
         setController();
     }
 
