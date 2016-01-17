@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     private ArrayList<Long> bpms= new ArrayList<Long>();
     private MusicService musicSrv;
     static final String TAG = "BPM_MUSIC_FINDER";
+    private int numSongs;
     private MusicController controller;
     private int songIndex = 0;
     private int tapCounter = 0;
@@ -87,6 +89,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDbHelper = new SongBPMDbHelper(getApplicationContext());
+
         setContentView(R.layout.activity_bpm_music_finder);
 
         findViewById(R.id.tapbutton).setOnTouchListener(new View.OnTouchListener(){
@@ -130,6 +133,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
             songString += s.toString() + "\n";
         }
         Log.d(TAG, "Dumping songs passed in: " + songString);
+        numSongs = songs.size();
         setController();
     }
 
