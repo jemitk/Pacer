@@ -1,9 +1,11 @@
 package com.example.karenlee.app;
 
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,13 +13,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.MediaController;
 
+import com.example.karenlee.app.db.SongBPMContract;
 import com.example.karenlee.app.db.SongBPMDbHelper;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class BPMMusicFinderActivity extends AppCompatActivity implements MediaController.MediaPlayerControl {
-
-    private ArrayList<Long> bpms= new ArrayList<>();
     private MusicService musicSrv;
     static final String TAG = "BPM_MUSIC_FINDER";
     private int numSongs;
@@ -80,14 +82,13 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
         }
     };
 
-    private SongBPMDbHelper mDbHelper;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDbHelper = new SongBPMDbHelper(getApplicationContext());
 
         setContentView(R.layout.activity_bpm_music_finder);
+        // get the songs from setupActivity
+        songs = (ArrayList<Song>) getIntent().getSerializableExtra(SetupActivity.EXTRA_SONGS);
 
         findViewById(R.id.tapbutton).setOnClickListener(new View.OnClickListener() {
 
@@ -105,14 +106,15 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                     long timeSpan = endTime - startTime;
                     long bpm = 600000 / timeSpan;
                     Log.i(TAG, "Estimated BPM of song: " + bpm);
-                    //TODO: store directly to db
-                    bpms.add(songIndex, bpm);
+
+                    songs.get(songIndex).setBpm(bpm);
 
                     tapCounter = 0;
                     songIndex++;
                     if (songIndex >= songs.size() - 1) {
                         // we're all done with the songs!
                         Log.i(TAG, "Finished all songs, returning to setup.");
+                        putToDb();
                         goToMain();
                     }
                     playSong(songIndex);
@@ -122,13 +124,12 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                 }
             }
         });
-        songs = (ArrayList<Song>) getIntent().getSerializableExtra(SetupActivity.EXTRA_SONGS);
 
         String songString = "";
         for (Song s : songs) {
             songString += s.toString() + "\n";
         }
-        Log.d(TAG, "Dumping songs passed in: " + songString);
+        Log.d(TAG, "Songs currently in db: " + songString);
         numSongs = songs.size();
         setController();
         prepareMusicSplash();
@@ -164,8 +165,14 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
         musicSrv.playSong();
     }
 
+    public void putToDb() {
+        SongBPMDbHelper dbHelper = SongBPMDbHelper.getInstance(this.getApplicationContext());
+        dbHelper.addSongs(songs);
+
+        Log.i(TAG, "Songs currently in the db: " + dbHelper.getSongs().toString());
+    }
+
     public void goToMain(){
-        // TODO: put bpms into the database
         Log.i(TAG, "Finishing Activity, sending Intent to FinishUploadSplash.");
         Intent lastSplash = new Intent(this, FinishUploadSplash.class);
         startActivity(lastSplash);

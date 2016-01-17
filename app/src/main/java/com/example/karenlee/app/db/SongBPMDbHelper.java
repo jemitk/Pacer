@@ -132,4 +132,12 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
 
         db.close();
     }
+
+    public void resetDb() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(SongBPMEntry.TABLE_NAME, "", new String[0]);
+
+        db.close();
+    }
 }
