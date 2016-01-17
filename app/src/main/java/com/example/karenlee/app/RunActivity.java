@@ -19,7 +19,7 @@ public class RunActivity extends AppCompatActivity {
     /**
      * The amount of samples to hold in a snapshot.
      */
-    private static final int SAMPLE_NUM = 2_000;
+    private static final int SAMPLE_NUM = 200;
 
     /**
      * The manager that you register all of the sensor objects with, handles their updates.

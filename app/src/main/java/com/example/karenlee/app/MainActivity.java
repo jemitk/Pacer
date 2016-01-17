@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startRun();
-
             }
         });
+        startMusicUpload();
     }
 
 
@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        startMusicUpload();
     }
 
     @Override

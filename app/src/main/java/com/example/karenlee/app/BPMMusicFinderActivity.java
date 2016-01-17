@@ -129,7 +129,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                     startTime = System.currentTimeMillis();
                 }
                 //If this is the last tap for the song
-                if (tapCounter == 10) {
+                if (tapCounter == 3) {
 
                     long endTime = System.currentTimeMillis();
                     long timeSpan = endTime - startTime;
@@ -169,16 +169,17 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
         Log.d(TAG, "Dumping songs passed in: " + songString);
         numSongs = songs.size();
         setController();
+        prepareMusicSplash();
     }
 
     public void prepareMusicSplash(){
+        Log.i(TAG, "Sending Intent to PrepareMusicSplash.");
         Intent prepareIntent = new Intent(this, PrepareMusicSplash.class);
         startActivity(prepareIntent);
     }
 
     @Override
     protected void onStart() {
-        prepareMusicSplash();
         super.onStart();
         if(playIntent == null){
             Log.i(TAG, "creating a play intent!");
@@ -197,12 +198,11 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
 
     public void goToMain(){
         // TODO: put bpms into the database
-
+        Log.i(TAG, "Finishing Activity, sending Intent to FinishUploadSplash.");
         Intent lastSplash = new Intent(this, FinishUploadSplash.class);
         startActivity(lastSplash);
         finish();
     }
-
 
     @Override
     public void start() {

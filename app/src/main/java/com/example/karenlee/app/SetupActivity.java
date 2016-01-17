@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,19 +26,15 @@ import android.content.ServiceConnection;
 import android.support.v7.app.AppCompatActivity;
 
 public class SetupActivity extends AppCompatActivity {
+    static final String TAG = "SETUP_ACTIVITY";
+
+    private boolean isSetup = false;
     private ArrayList<Song> songList;
     static final String EXTRA_SONGS = "com.example.karenlee.extras.EXTRA_SONGS";
-
-    public void uploadsplash(){
-        Intent splashIntent = new Intent(this, PrepareMusicSplash.class);
-        startActivity(splashIntent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
         setContentView(R.layout.activity_setup);
 
@@ -53,31 +50,19 @@ public class SetupActivity extends AppCompatActivity {
                 return a.getTitle().compareTo(b.getTitle());
             }
         });
-
-        // set the adapter
-        //SongAdapter songAdt = new SongAdapter(this, songList);
-        //songView.setAdapter(songAdt);
-
-       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        }); */
-
-        //setController();
     }
 
     @Override
     protected void onStart() {
+        Log.i(TAG, "Starting the activity, isSetup boolean is " + isSetup);
+        if (isSetup) {
+            Log.i(TAG, "Finishing the activity");
+            finish();
+        } else {
+            goToBPM();
+            isSetup = true;
+        }
         super.onStart();
-        uploadsplash();
-        goToBPM();
     }
 
     @Override
@@ -128,27 +113,15 @@ public class SetupActivity extends AppCompatActivity {
     }
 
     public void goToBPM(){
+        Log.i(TAG, "Sending intent to BPMMUsicFinderActivity");
         Intent bpmIntent = new Intent(this, BPMMusicFinderActivity.class);
         bpmIntent.putExtra(EXTRA_SONGS, songList);
         startActivity(bpmIntent);
-        finish();
     }
-
-
 
     public void goToRunning() {
         Intent runIntent = new Intent(this, RunActivity.class);
         startActivity(runIntent);
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent newItem){
-        if (requestCode==0){
-            if (resultCode==RESULT_OK){
-                //TODO: store into db bpm result from newItem.getStringExtra(some other thing here)
-                // Go to the main screen
-                goToRunning();
-            }
-        }
     }
 
 }
