@@ -172,9 +172,13 @@ public class RunActivity extends AppCompatActivity implements SensorEventListene
                                     }
                                 }
                         );
-                        dynamicSongList.add(mDbHelper.getBpmSong(bpmGoal));
-                        musicSrv.setSong(0);
-                        musicSrv.playSong();
+                        try {
+                            dynamicSongList.add(mDbHelper.getBpmSong(bpmGoal));
+                            musicSrv.setSong(0);
+                            musicSrv.playSong();
+                        } catch (IllegalStateException ex) {
+                            Log.e(TAG, "Database was empty, no closest song to the bpm.", ex);
+                        }
                     }
                 }).run();
             }
