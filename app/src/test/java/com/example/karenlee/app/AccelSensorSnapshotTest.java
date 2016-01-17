@@ -6,6 +6,13 @@ import com.example.karenlee.app.sensoranalysis.AccelSensorSnapshot;
 
 import org.junit.Test;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * Unit tests for the AccelSensorSnapshot object.
  */
@@ -77,5 +84,48 @@ public class AccelSensorSnapshotTest {
     public void testFindBpmAdvanced() {
         throw new RuntimeException("Not implemented!");
     }
+
+
+    public void run() {
+
+        String csvFile = "location/of/file.csv";
+        BufferedReader br = null;
+        String line = "";
+        String cvsSplitBy = ",";
+        AccelSensorSnapshot sensorSnapshot;
+        ArrayList<double[]> list = new ArrayList<>();
+
+        try {
+
+            br = new BufferedReader(new FileReader(csvFile));
+            while ((line = br.readLine()) != null) {
+                // use comma as separator
+                String[] data = line.split(cvsSplitBy);
+                double[] array = new double[3];
+                Arrays.asList(Double.parseDouble(data[0]), Double.parseDouble(data[1]), Double.parseDouble(data[2])).toArray(array);
+                list.add(array);
+            }
+            sensorSnapshot = new AccelSensorSnapshot(list.size());
+            for (double[] array : list) {
+                sensorSnapshot.addSample(array[0], array[1], array[2]);
+            }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (br != null) {
+                try {
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        System.out.println("Done");
+    }
+
 
 }
