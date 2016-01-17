@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.karenlee.app.db.SongBPMDbHelper;
 import com.example.karenlee.app.sensoranalysis.AccelSensorSnapshot;
@@ -168,8 +169,7 @@ public class RunActivity extends AppCompatActivity implements SensorEventListene
                                 new Runnable() {
                                     @Override
                                     public void run() {
-                                        ((TextView) findViewById(R.id.textView)).setText("Final BPM: " +
-                                                bpmGoal);
+                                        ((TextView) findViewById(R.id.textView)).setText("" + bpmGoal);
                                     }
                                 }
                         );
@@ -197,8 +197,7 @@ public class RunActivity extends AppCompatActivity implements SensorEventListene
                             public void run() {
                                 double bpm = snapshot.findBPM();
                                 if (bpm > 0)
-                                    ((TextView) findViewById(R.id.textView)).setText("Potentially "
-                                            + (int) Math.round(snapshot.findBPM()));
+                                    ((TextView) findViewById(R.id.textView)).setText("~" + (int) Math.round(snapshot.findBPM()));
                             }
                         }
                 );
@@ -266,6 +265,7 @@ public class RunActivity extends AppCompatActivity implements SensorEventListene
         goldenGuess = false;
         snapshot.reset();
         start = System.currentTimeMillis();
+        Toast.makeText(getApplicationContext(), "Resetting the bpm count...", Toast.LENGTH_SHORT).show();
     }
 
     private void playNext() {

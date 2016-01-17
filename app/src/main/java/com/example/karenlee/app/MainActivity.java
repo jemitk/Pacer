@@ -1,5 +1,6 @@
 package com.example.karenlee.app;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.karenlee.app.db.SongBPMDbHelper;
 
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         dbHelper.resetDb();
         Log.w(TAG, "Reset database");
         Log.w(TAG, "After resetting the database, the items in db are: " + dbHelper.getSongs().toString());
+
+        Toast.makeText(getApplicationContext(), "Database has been reset", Toast.LENGTH_SHORT).show();
     }
 
     @Override
