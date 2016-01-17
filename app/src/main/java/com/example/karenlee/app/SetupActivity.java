@@ -124,9 +124,9 @@ public class SetupActivity extends AppCompatActivity {
         SongBPMDbHelper dbHelper = SongBPMDbHelper.getInstance(this.getApplicationContext());
 
         // TODO: for debugging purposes only. deletes all of the data in db
-        //dbHelper.resetDb();
-        //Log.i(TAG, "Reset database");
-        //Log.i(TAG, "After resetting the database, the items in db are: " + dbHelper.getSongs().toString());
+        dbHelper.resetDb();
+        Log.i(TAG, "Reset database");
+        Log.i(TAG, "After resetting the database, the items in db are: " + dbHelper.getSongs().toString());
 
         ArrayList<Song> dbSongList = dbHelper.getSongs();
 
