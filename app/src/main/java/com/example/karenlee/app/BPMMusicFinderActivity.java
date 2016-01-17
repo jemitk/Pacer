@@ -4,12 +4,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.graphics.Color;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.MediaController;
 
@@ -92,21 +90,21 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
 
         setContentView(R.layout.activity_bpm_music_finder);
 
-        findViewById(R.id.tapbutton).setOnTouchListener(new View.OnTouchListener(){
+        findViewById(R.id.tapbutton).setOnClickListener(new View.OnClickListener() {
 
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public void onClick(View v) {
                 Log.d(TAG, "User has touched the button");
                 //If this is the first tap for the song
-                if (tapCounter == 0){
+                if (tapCounter == 0) {
                     startTime = System.currentTimeMillis();
                 }
                 //If this is the last tap for the song
-                if (tapCounter == 10){
+                if (tapCounter == 10) {
 
                     long endTime = System.currentTimeMillis();
                     long timeSpan = endTime - startTime;
-                    long bpm = 600000/timeSpan;
+                    long bpm = 600000 / timeSpan;
                     Log.i(TAG, "Estimated BPM of song: " + bpm);
                     //TODO: store directly to db
                     bpms.add(songIndex, bpm);
@@ -119,11 +117,10 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                         goToMain();
                     }
                     playSong(songIndex);
-                }else{
+                } else {
                     //All other cases
                     tapCounter++;
                 }
-                return false;
             }
         });
         Intent mainIntent = getIntent();
