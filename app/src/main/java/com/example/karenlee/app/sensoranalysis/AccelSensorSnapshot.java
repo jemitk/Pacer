@@ -85,11 +85,18 @@ public class AccelSensorSnapshot {
     }
 
     /**
+     * @returns True if the accel matrix is equal to the max, false otherwise.
+     */
+    public boolean isFull() {
+        return currentSample == max;
+    }
+
+    /**
      * Returns the BPM from the current snapshot it has. Won't let you get the BPM until the
      * snapshot is filled (will return -1 instead).
      */
     public double findBPM() {
-        if (currentSample >= max) {
+        if (isFull()) {
             double[] t = timeDataVector;
             double[][] a = accelDataMatrix;
             double[] x = a[0];

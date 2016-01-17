@@ -17,4 +17,9 @@ public class Song implements Serializable{
     public long getID(){return id;}
     public String getTitle(){return title;}
     public String getArtist(){return artist;}
+
+    @Override
+    public String toString() {
+        return id + " " + title + " by " + artist;
+    }
 }

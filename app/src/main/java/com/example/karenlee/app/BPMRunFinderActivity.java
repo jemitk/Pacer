@@ -12,6 +12,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
+
+import com.example.karenlee.app.sensoranalysis.AccelSensorSnapshot;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -45,6 +48,16 @@ public class BPMRunFinderActivity extends AppCompatActivity {
      * The manager that you register all of the sensor objects with, handles their updates.
      */
     private SensorManager mSensorManager;
+
+    /**
+     * The aggregator for the bpm guesses.
+     */
+    private AccelSensorSnapshot snapshot = new AccelSensorSnapshot(SAMPLE_NUM);
+
+    /**
+     * The time that this process started.
+     */
+    private long start;
 
     private final Handler mHideHandler = new Handler();
     private View mContentView;
@@ -104,7 +117,9 @@ public class BPMRunFinderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_bpmfinder);
+        start = System.currentTimeMillis();
+
+        setContentView(R.layout.activity_bpm_run_finder);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
@@ -112,12 +127,17 @@ public class BPMRunFinderActivity extends AppCompatActivity {
         // registers given listener with the accelerometer, gets samples every 1,000 us, or 1 ms.
         mSensorManager.registerListener(new SensorEventListener(){
             public void onSensorChanged(SensorEvent event) {
-                float axisX = event.values[0];
-                float axisY = event.values[1];
-                float axisZ = event.values[2];
+                if (snapshot.isFull()) {
+                    TextView text = (TextView) findViewById(R.id.textView);
+                    text.setText("BPM: " + snapshot.findBPM());
+                } else {
+                    // add another sample to the snapshot!
+                    float axisX = event.values[0];
+                    float axisY = event.values[1];
+                    float axisZ = event.values[2];
 
-
-
+                    snapshot.addSample((double) System.currentTimeMillis() - start, axisX, axisY, axisZ);
+                }
             }
 
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
