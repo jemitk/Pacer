@@ -167,6 +167,14 @@ public class RunActivity extends AppCompatActivity implements SensorEventListene
                         }
                     }
             );
+            // play the song
+            (new Runnable(){
+                @Override
+                public void run() {
+                    dynamicSongList.size();
+                }
+            }).run();
+
             snapshot.reset();
             start = System.currentTimeMillis();
         } else {
