@@ -40,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="203dp"
             android:id="@+id/buttonsettings"
+            android:onClick="resetDatabase"
             android:layout_weight="0.01"
             android:background="#01ffffff" />
 

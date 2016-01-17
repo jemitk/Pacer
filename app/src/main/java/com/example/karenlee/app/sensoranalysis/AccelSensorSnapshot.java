@@ -128,14 +128,14 @@ public class AccelSensorSnapshot {
 
         double a_mag_mean = mean(a_mag);
 
-        Log.d(TAG, "Average magnitude: " + a_mag_mean);
+        //Log.d(TAG, "Average magnitude: " + a_mag_mean);
 
         // normalize by the mean magnitude (gravity + overall running acceleration)
         for (int i = 0; i < t.length; i++) {
             a_mag[i] -= a_mag_mean;
         }
 
-        Log.d(TAG, "Magnitude: " + Arrays.toString(Arrays.copyOfRange(a_mag, 0, 10)));
+        //Log.d(TAG, "Magnitude: " + Arrays.toString(Arrays.copyOfRange(a_mag, 0, 10)));
 
         PeakDetector pd = new PeakDetector(a_mag);
         int[] peakLocations = pd.process(8, 1);

@@ -109,6 +109,17 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
         return songList;
     }
 
+    public Song getBpmSong(double bpm) {
+        ArrayList<Song> songList = getSongs();
+        Song closest = songList.get(0);
+        for (Song s : songList) {
+            if (Math.abs(s.getBpm() - bpm) < Math.abs(closest.getBpm() - bpm)) {
+                closest = s;
+            }
+        }
+        return closest;
+    }
+
     // cannot be used separately. a private function
     private void deleteSong(SQLiteDatabase db, Song song) {
         // Define where clause

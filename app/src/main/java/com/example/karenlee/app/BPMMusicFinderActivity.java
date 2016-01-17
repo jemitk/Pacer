@@ -100,7 +100,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                     startTime = System.currentTimeMillis();
                 }
                 //If this is the last tap for the song
-                if (tapCounter == 3) {
+                if (tapCounter == 9) {
 
                     long endTime = System.currentTimeMillis();
                     long timeSpan = endTime - startTime;

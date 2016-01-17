@@ -157,24 +157,28 @@ public class RunActivity extends AppCompatActivity implements SensorEventListene
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (snapshot.isFull()) {
-            goldenGuess = true;
-            runOnUiThread(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            ((TextView) findViewById(R.id.textView)).setText("Final BPM: " +
-                                    (int) Math.round(snapshot.findBPM()));
-                        }
+            if (!goldenGuess) {
+                goldenGuess = true;
+                // play the song
+                (new Runnable(){
+                    @Override
+                    public void run() {
+                        final int bpmGoal = (int) Math.round(snapshot.findBPM());
+                        runOnUiThread(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ((TextView) findViewById(R.id.textView)).setText("Final BPM: " +
+                                                bpmGoal);
+                                    }
+                                }
+                        );
+                        dynamicSongList.add(mDbHelper.getBpmSong(bpmGoal));
+                        musicSrv.setSong(0);
+                        musicSrv.playSong();
                     }
-            );
-            // play the song
-            (new Runnable(){
-                @Override
-                public void run() {
-                    dynamicSongList.size();
-                }
-            }).run();
-
+                }).run();
+            }
             snapshot.reset();
             start = System.currentTimeMillis();
         } else {
