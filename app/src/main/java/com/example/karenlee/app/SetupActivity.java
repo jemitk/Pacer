@@ -20,7 +20,7 @@ public class SetupActivity extends AppCompatActivity {
 
     private boolean isSetup = false;
     private ArrayList<Song> localSongList;
-    private ArrayList<Song> addedSongList = new ArrayList<Song>();
+    private ArrayList<Song> addedSongList = new ArrayList<>();
     static final String EXTRA_SONGS = "com.example.karenlee.extras.EXTRA_SONGS";
 
     @Override
