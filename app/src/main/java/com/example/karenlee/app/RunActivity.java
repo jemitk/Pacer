@@ -173,7 +173,10 @@ public class RunActivity extends AppCompatActivity implements SensorEventListene
                                 }
                         );
                         try {
-                            dynamicSongList.add(mDbHelper.getBpmSong(bpmGoal));
+                            ArrayList<Song> list = new ArrayList<>();
+                            list.add(mDbHelper.getBpmSong(bpmGoal));
+                            Log.i(TAG, "Found " + list.get(0).toString() + " to match " + bpmGoal);
+                            musicSrv.setList(list);
                             musicSrv.setSong(0);
                             musicSrv.playSong();
                         } catch (IllegalStateException ex) {

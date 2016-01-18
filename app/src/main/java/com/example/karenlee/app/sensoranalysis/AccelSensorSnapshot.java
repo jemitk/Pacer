@@ -112,8 +112,8 @@ public class AccelSensorSnapshot {
                     a[i] = Arrays.copyOfRange(accelDataMatrix[i], 0, currentSample);
                 }
             } else {
-                Log.e(TAG, "Not enough samples to find the BPM. Current: " + (currentSample - 1) +
-                        ", necessary: " + max);
+               // Log.e(TAG, "Not enough samples to find the BPM. Current: " + (currentSample - 1) +
+               //         ", necessary: " + max);
                 return -2;
             }
         }

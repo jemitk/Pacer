@@ -59,6 +59,7 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
         values.put(SongBPMContract.SongBPMEntry.COLUMN_NAME_ARTIST, song.getArtist());
         values.put(SongBPMContract.SongBPMEntry.COLUMN_NAME_TITLE, song.getTitle());
         values.put(SongBPMContract.SongBPMEntry.COLUMN_NAME_SONG_ID, song.getID());
+        values.put(SongBPMContract.SongBPMEntry.COLUMN_NAME_BPM, song.getBpm());
 
         // Insert the new row
         db.insert(SongBPMContract.SongBPMEntry.TABLE_NAME,
@@ -96,7 +97,8 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
             do {
                 Song song = new Song(Integer.parseInt(cursor.getString(1)),
                         cursor.getString(2),
-                        cursor.getString(3));
+                        cursor.getString(3),
+                        cursor.getDouble(4));
                 // Adding song to list
                 songList.add(song);
             } while (cursor.moveToNext());
@@ -128,7 +130,7 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
     // cannot be used separately. a private function
     private void deleteSong(SQLiteDatabase db, Song song) {
         // Define where clause
-        String selection = " ? EQUALS ? AND ? EQUALS ?";
+        String selection = "? EQUALS ? AND ? EQUALS ?";
         String[] selectionArgs = {SongBPMEntry.COLUMN_NAME_ARTIST,
                 song.getArtist(),
                 SongBPMEntry.COLUMN_NAME_TITLE,

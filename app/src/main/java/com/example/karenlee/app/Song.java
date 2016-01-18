@@ -30,7 +30,7 @@ public class Song implements Serializable{
 
     @Override
     public String toString() {
-        return id + " " + title + " by " + artist;
+        return id + " " + title + " by " + artist + ", " + bpm + " bpm";
     }
 
     @Override
