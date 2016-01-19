@@ -24,7 +24,7 @@ And we're also looking at improving our current functionalities:
 * Impromiving the tapping beats per minute detection
 * Adding user defined settings
 
-Checkout the [TODO](https://github.com/jemitk/Pacer/TODO.md) file for more specific information.
+Checkout the [TODO](https://github.com/jemitk/Pacer/blob/master/TODO.md) file for more specific information.
 ### Contributing
 
 Feel free to fork and send pull requests. At least one of the contributers is probably watching.
