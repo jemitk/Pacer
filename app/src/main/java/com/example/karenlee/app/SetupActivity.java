@@ -1,7 +1,13 @@
 package com.example.karenlee.app;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +22,7 @@ import android.database.Cursor;
 import com.example.karenlee.app.db.SongBPMDbHelper;
 
 public class SetupActivity extends AppCompatActivity {
+    static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
     static final String TAG = "SETUP_ACTIVITY";
 
     private boolean isSetup = false;
@@ -33,7 +40,7 @@ public class SetupActivity extends AppCompatActivity {
         //songView = (ListView)findViewById(R.id.song_list);
         // instantiate the list
         localSongList = new ArrayList<>();
-        getSongList();
+        preGetSongList();
 
         // sort the data alphabetically
         Collections.sort(localSongList, new Comparator<Song>() {
@@ -73,6 +80,30 @@ public class SetupActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String permissions[],
+                                           @NonNull int[] grantResults) {
+        switch(requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // we can read things!!
+                    getSongList();
+                } else {
+                    // we can't really do anything. Show a dialogue pop up to the user, and stop the app.
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                    builder.setMessage(R.string.no_permissions_dialogue_message)
+                            .setTitle(R.string.no_permissions_dialogue_title);
+                    builder.create().show();
+                    // Exit the application. Look into better ways of managing without music.
+                    System.exit(0);
+                }
+                break;
+            default:
+                Log.w(TAG, "Why did we request " + requestCode + " again?");
+        }
+    }
+
     // get the list of songs
     public void getSongList() {
         //retrieve song info
@@ -105,6 +136,34 @@ public class SetupActivity extends AppCompatActivity {
             }
             while (musicCursor.moveToNext());
             musicCursor.close();
+        }
+
+    }
+
+    /**
+     * A method that does the permissions screening for reading media, if on Marshmallow.
+     */
+    public void preGetSongList() {
+        if (android.os.Build.VERSION.SDK_INT >= 23) {
+            // we need to explicitly check for permissions to read music. Do so.
+            // if we don't have the permissions to look at the user's music, try to get them
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    // show the user a reason that we're asking them for their music
+                    // TODO
+                } else {
+                    // just ask for permissions
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+                }
+            }
+        } else {
+            // just go straight to the list: we dealt with permissions at runtime
+            // if we don't have the permissions to look at the user's music, try to get them
+            getSongList();
         }
     }
 
