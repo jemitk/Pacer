@@ -15,9 +15,16 @@
     <string name="title_activity_workout_music">WorkoutMusicActivity</string>
 
     <string name="no_permissions_dialogue_message">We see that you denied us access to look at your music
-        library. :( We can't really do anything without access to your music, so we're
+        library. :( We can\'t really do anything without access to your music, so we\'re
         just gonna leave now. Feel free to re-start the app and allow us access if you want to use us
         again.</string>
 
     <string name="no_permissions_dialogue_title">Bummer!</string>
+
+    <string name="explain_permissions_dialogue_message">Pacer is an app that deals heavily with your
+        music library. We analyze the songs (with your help), and help you decide on a good one to play
+        when exercising. In order to do this, we need to be able to see your music library. Think about
+        letting up do that?</string>
+
+    <string name="explain_permissions_dialogue_title">Wait!</string>
 </resources>
