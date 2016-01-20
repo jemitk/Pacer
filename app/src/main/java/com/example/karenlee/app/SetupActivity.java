@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -88,15 +89,23 @@ public class SetupActivity extends AppCompatActivity {
             case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // we can read things!!
+                    Log.d(TAG, "User allowed use to read external storage");
                     getSongList();
                 } else {
                     // we can't really do anything. Show a dialogue pop up to the user, and stop the app.
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                    builder.setMessage(R.string.no_permissions_dialogue_message)
-                            .setTitle(R.string.no_permissions_dialogue_title);
-                    builder.create().show();
-                    // Exit the application. Look into better ways of managing without music.
-                    System.exit(0);
+                    Log.e(TAG, "User didn't allow use to read external storage. Exiting the app");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(SetupActivity.this);
+                            builder.setMessage(R.string.no_permissions_dialogue_message)
+                                    .setTitle(R.string.no_permissions_dialogue_title);
+                            builder.create().show();
+                            // Exit the application.
+                            // TODO Look into better ways of managing without music.
+                            System.exit(0);
+                        }
+                    });
                 }
                 break;
             default:
@@ -110,6 +119,7 @@ public class SetupActivity extends AppCompatActivity {
         ContentResolver musicResolver = getContentResolver();
         // retrieve the URI for external music files
         Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Log.d(TAG, "Querying the media store of the user");
         Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
 
         // iterate over the results
@@ -145,22 +155,38 @@ public class SetupActivity extends AppCompatActivity {
      */
     public void preGetSongList() {
         if (android.os.Build.VERSION.SDK_INT >= 23) {
+            Log.d(TAG, "We're running on marshmallow");
             // we need to explicitly check for permissions to read music. Do so.
             // if we don't have the permissions to look at the user's music, try to get them
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                         Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    Log.d(TAG, "System is telling us that we should explain why we're asking for storage access");
                     // show the user a reason that we're asking them for their music
                     // TODO
+                    //AlertDialog.Builder builder = new AlertDialog.Builder(SetupActivity.this);
+                    //builder.setMessage(R.string.explain_permissions_dialogue_message)
+                    //        .setTitle(R.string.explain_permissions_dialogue_title);
+                    //(builder.create()).show();
+
+                    ActivityCompat.requestPermissions(SetupActivity.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+
                 } else {
                     // just ask for permissions
+                    Log.i(TAG, "Asking for permission to access storage");
                     ActivityCompat.requestPermissions(this,
                             new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                             MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
                 }
+            } else {
+                Log.d(TAG, "User already allowed up to access external storage, so let's do that");
+                getSongList();
             }
         } else {
+            Log.d(TAG, "We're running on a system older than marshmallow");
             // just go straight to the list: we dealt with permissions at runtime
             // if we don't have the permissions to look at the user's music, try to get them
             getSongList();

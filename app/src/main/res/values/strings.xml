@@ -20,4 +20,11 @@
         again.</string>
 
     <string name="no_permissions_dialogue_title">Bummer!</string>
+
+    <string name="explain_permissions_dialogue_message">Pacer is an app that deals heavily with your
+        music library. We analyze the songs (with your help), and help you decide on a good one to play
+        when exercising. In order to do this, we need to be able to see your music library. Think about
+        letting up do that?</string>
+
+    <string name="explain_permissions_dialogue_title">Wait!</string>
 </resources>
