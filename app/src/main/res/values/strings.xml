@@ -15,7 +15,7 @@
     <string name="title_activity_workout_music">WorkoutMusicActivity</string>
 
     <string name="no_permissions_dialogue_message">We see that you denied us access to look at your music
-        library. :( We can't really do anything without access to your music, so we're
+        library. :( We can\'t really do anything without access to your music, so we\'re
         just gonna leave now. Feel free to re-start the app and allow us access if you want to use us
         again.</string>
 
