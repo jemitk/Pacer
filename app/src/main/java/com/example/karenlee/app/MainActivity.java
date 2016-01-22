@@ -18,18 +18,19 @@ public class MainActivity extends AppCompatActivity {
 
     static final int SETUP_ACTIVITY_CODE = 0;
 
+    // note: on create gets called when the screen rotates
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViewById(R.id.buttonstart).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.startButton).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 startRun();
             }
         });
-        findViewById(R.id.buttonworkouts).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.workoutsButton).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {

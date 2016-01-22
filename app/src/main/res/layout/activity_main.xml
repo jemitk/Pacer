@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
 
     tools:context="com.example.karenlee.app.MainActivity">
 
@@ -8,42 +8,39 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/imageView4"
-        android:weightSum="1">
+        android:layout_centerHorizontal="true">
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonstart"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.56"
-            android:background="#18d9e0" />
+            android:layout_height="0dp"
+            android:text="Start"
+            android:id="@+id/startButton"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:background="#1aeee3"
+            android:textSize="40dp"
+            android:typeface="sans" />
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/buttonworkouts"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="0.61"
-            android:background="#01ffffff" />
+            android:layout_height="0dp"
+            android:text="Workouts"
+            android:id="@+id/workoutsButton"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:background="#f34067"
+            android:typeface="sans"
+            android:textSize="40dp" />
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="203dp"
-            android:id="@+id/buttonsettings"
-            android:onClick="resetDatabase"
-            android:layout_weight="0.01"
-            android:background="#01ffffff" />
-
+            android:layout_height="0dp"
+            android:text="Settings"
+            android:id="@+id/settingsButton"
+            android:layout_gravity="center"
+            android:layout_weight="0.3"
+            android:background="#ffffff"
+            android:typeface="sans"
+            android:textSize="40dp" />
     </LinearLayout>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView4"
-        android:src="@drawable/mainmenu"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
 </RelativeLayout>
