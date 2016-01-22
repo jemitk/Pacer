@@ -103,7 +103,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                 if (tapCounter == 9) {
                     long endTime = System.currentTimeMillis();
                     long timeSpan = endTime - startTime;
-                    long bpm = (long) Math.round(600000.0 / timeSpan);
+                    long bpm = Math.round(600000.0 / timeSpan);
                     Log.i(TAG, "Estimated BPM of song: " + bpm);
 
                     songs.get(songIndex).setBpm(bpm);
@@ -203,9 +203,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     }
 
     @Override
-    public void seekTo(int pos) {
-
-    }
+    public void seekTo(int pos) {}
 
     @Override
     public boolean isPlaying() {

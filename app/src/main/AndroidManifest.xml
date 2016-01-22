@@ -42,7 +42,8 @@
 
         <service android:name=".MusicService" />
 
-        <activity android:name=".BPMMusicFinderActivity" />
+        <activity android:name=".BPMMusicFinderActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".RunActivity"
             android:label="@string/title_activity_run" />
