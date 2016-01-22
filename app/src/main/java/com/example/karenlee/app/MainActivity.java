@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
 
     static final String TAG = "MAIN_ACTIVITY";
 
+    static final int SETUP_ACTIVITY_CODE = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +50,30 @@ public class MainActivity extends AppCompatActivity {
     }
     public void startMusicUpload(){
         Intent setupIntent = new Intent(this, SetupActivity.class);
-        startActivity(setupIntent);
+        startActivityForResult(setupIntent, SETUP_ACTIVITY_CODE);
+    }
+
+    /**
+     * @param requestCode
+     * @param resultCode
+     * @param newItem the new ingredient to add to the list
+     */
+    public void onActivityResult(int requestCode, int resultCode, Intent newItem){
+        // gets the new item from the new window
+    Log.d(TAG, "Request code:" + requestCode);
+        if(requestCode == SETUP_ACTIVITY_CODE){
+            if (resultCode == RESULT_OK){
+                Log.v(TAG, "Everything went okay from setup activity");
+            }
+            if (resultCode == RESULT_CANCELED) {
+                // if canceled, check to see if it was a permissions issue.
+                if (!newItem.getBooleanExtra(SetupActivity.EXTRA_PERMISSION, true)) {
+                    // something went wrong! Quit the app!
+                    finish();
+                }
+            }
+        }
+
     }
 
     @Override
