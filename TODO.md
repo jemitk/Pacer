@@ -7,15 +7,15 @@ and feature requests.
 
 ## Known Issues/ Bugs
 
-* App crashes when there are songs that are present in it's library that no 
-longer exist on the phone.
+* App crashes when there are songs present in it's library that no 
+longer exist on the phone. ([track here](https://github.com/jemitk/Pacer/issues/4))
 * Toasts (those little pop ups at the bottom of the screen) are too slow to 
 actually convey information to the user during tap-input.
 * Write unit tests, lol
 
 ## Improvement ideas
 
-* Reject outling taps in the tap-input to get a better measurements
+* Reject outlying taps in the tap-input to get better measurements ([track here](https://github.com/jemitk/Pacer/issues/5))
 * Change the screen's during tap-input to let the user know when the input
 song has changed
 * Display the current input song during tap-input
