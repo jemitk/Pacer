@@ -1,11 +1,9 @@
 package com.example.karenlee.app;
 
 import android.content.ComponentName;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,10 +12,8 @@ import android.view.View;
 import android.widget.MediaController;
 import android.widget.Toast;
 
-import com.example.karenlee.app.db.SongBPMContract;
 import com.example.karenlee.app.db.SongBPMDbHelper;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class BPMMusicFinderActivity extends AppCompatActivity implements MediaController.MediaPlayerControl {
