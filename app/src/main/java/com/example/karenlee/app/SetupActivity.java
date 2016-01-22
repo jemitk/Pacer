@@ -254,11 +254,11 @@ public class SetupActivity extends AppCompatActivity implements ExplainDialogFra
             if (!localSongList.contains(dbSong))
                 deleteSongList.add(dbSong);
         }
-
+        Log.i(TAG, "songs that should be deleted - " + deleteSongList.toString());
         if (deleteSongList.size() != 0) {
             dbHelper.deleteSongs(deleteSongList);
         }
-
+        Log.i(TAG, "songs in database after deleting - " + dbHelper.getSongs().toString());
         // no need to add songs;
         // the addedSongList gets sent to the BPMMusicFinderActivity
         // and the BPMMusicFinderActivity adds the songs to the db with the bpm

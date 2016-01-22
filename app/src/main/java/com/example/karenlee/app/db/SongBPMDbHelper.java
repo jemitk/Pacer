@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.karenlee.app.Song;
 
@@ -127,15 +128,23 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
         }
     }
 
+    // cannot be used separately.
+    private void deleteSongWithId(SQLiteDatabase db, Song song) {
+        String selection = SongBPMEntry.COLUMN_NAME_SONG_ID + "=?";
+        String[] selectionArgs = {Long.toString(song.getID())};
+        db.delete(SongBPMEntry.TABLE_NAME, selection, selectionArgs);
+    }
+
     // cannot be used separately. a private function
     private void deleteSong(SQLiteDatabase db, Song song) {
         // Define where clause
-        String selection = "? EQUALS ? AND ? EQUALS ?";
+        String selection = "?=? AND ?=?";
         String[] selectionArgs = {SongBPMEntry.COLUMN_NAME_ARTIST,
-                song.getArtist(),
+                "\'" + song.getArtist() + "\'",
                 SongBPMEntry.COLUMN_NAME_TITLE,
-                song.getTitle()};
-
+                "\'" + song.getTitle() + "\'"};
+        Log.i("SongBPMDbHelper", "song artist is - " + song.getArtist());
+        Log.i("SongBPMDbHelper", "song title is - " + song.getTitle());
         // Issue SQL statement.
         db.delete(SongBPMEntry.TABLE_NAME, selection, selectionArgs);
     }
@@ -145,7 +154,7 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
 
         // delete each song from the file
         for (Song song : songs) {
-            deleteSong(db, song);
+            deleteSongWithId(db, song);
         }
 
         db.close();
