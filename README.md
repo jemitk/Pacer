@@ -2,7 +2,7 @@ Pacer: Your Rhythm Friendly Companion
 =====================================
 
 Started at HackRice 2016, Pacer is Android Application that, when exercising, detects your pace of movement and plays the song
-in your library that has the closest pace to your movement. It includes the abilitiy to detect new
+in your library that has the closest pace to your movement. It includes the ability to detect new
 music in your library and allows you to define each song's beats per minute by tapping.
 
 ### To Build/ Install on your phone
@@ -27,4 +27,4 @@ And we're also looking at improving our current functionalities:
 Checkout the [TODO](https://github.com/jemitk/Pacer/blob/master/TODO.md) file for more specific information.
 ### Contributing
 
-Feel free to fork and send pull requests. At least one of the contributers is probably watching.
+Feel free to fork and send pull requests. At least one of the contributors is probably watching.
