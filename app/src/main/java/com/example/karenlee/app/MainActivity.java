@@ -27,35 +27,35 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                startRun();
+                startVoidActivity(PrepareStartSplash.class);
             }
         });
         findViewById(R.id.workoutsButton).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                startWorkout();
+                startVoidActivity(WorkoutsActivity.class);
             }
         });
         findViewById(R.id.settingsButton).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                resetDatabase(v);
+                startVoidActivity(SettingsActivity.class);
             }
         });
         startMusicUpload();
     }
 
-    public void startRun(){
-        Intent runIntent = new Intent(this, PrepareStartSplash.class);
-        startActivity(runIntent);
+    /**
+     * Starts an activity that doesn't need a result / return value.
+     * @param newActivity The class of the new activity to create (Foo.class)
+     */
+    public void startVoidActivity(Class<?> newActivity) {
+        Intent newIntent = new Intent(this, newActivity);
+        startActivity(newIntent);
     }
 
-    public void startWorkout() {
-        Intent workoutIntent = new Intent(this, WorkoutsActivity.class);
-        startActivity(workoutIntent);
-    }
     public void startMusicUpload(){
         Intent setupIntent = new Intent(this, SetupActivity.class);
         startActivityForResult(setupIntent, SETUP_ACTIVITY_CODE);
@@ -104,15 +104,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    public void resetDatabase(View view) {
-        SongBPMDbHelper dbHelper = SongBPMDbHelper.getInstance(this.getApplicationContext());
-        dbHelper.resetDb();
-        Log.w(TAG, "Reset database");
-        Log.w(TAG, "After resetting the database, the items in db are: " + dbHelper.getSongs().toString());
-
-        Toast.makeText(getApplicationContext(), "Database has been reset", Toast.LENGTH_SHORT).show();
     }
 
     @Override
