@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.Toast;
 
@@ -112,6 +113,12 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                     } else {
                         // throw up a toast: new song
                         (Toast.makeText(getApplicationContext(), "Got it! Proceeding to next song.", Toast.LENGTH_SHORT)).show();
+                        ImageView background = ((ImageView) findViewById(R.id.tapBackground));
+                        if (counter.getCycleCount() % 2 == 0) {
+                            background.setImageResource(R.drawable.bpmtap2);
+                        } else {
+                            background.setImageResource(R.drawable.bpmtap);
+                        }
                         playSong(counter.getCycleCount());
                     }
                 }
@@ -169,6 +176,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
         Log.i(TAG, "Finishing Activity, sending Intent to FinishUploadSplash.");
         Intent lastSplash = new Intent(this, FinishUploadSplash.class);
         startActivity(lastSplash);
+        musicSrv.stopSelf();
         finish();
     }
 

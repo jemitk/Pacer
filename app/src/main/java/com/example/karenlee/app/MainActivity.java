@@ -37,6 +37,13 @@ public class MainActivity extends AppCompatActivity {
                 startWorkout();
             }
         });
+        findViewById(R.id.settingsButton).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                resetDatabase(v);
+            }
+        });
         startMusicUpload();
     }
 
