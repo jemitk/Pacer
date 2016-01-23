@@ -20,9 +20,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     private MusicService musicSrv;
     static final String TAG = "BPM_MUSIC_FINDER";
     private int numSongs;
-    private int songIndex = 0;
-    private int tapCounter = 0;
-    private long startTime = 0;
+    private TapCounter counter;
     private ArrayList<Song> songs = new ArrayList<>();
     private Intent playIntent;
     static final String EXTRA_BPM = "com.example.karenlee.extras.EXTRA_BPM";
@@ -81,6 +79,8 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        counter = new TapCounter(10);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_bpm_music_finder);
@@ -92,25 +92,18 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "User has touched the button");
-                //If this is the first tap for the song
-                if (tapCounter == 0) {
-                    startTime = System.currentTimeMillis();
-                }
-                if (tapCounter == 6) {
-                    (Toast.makeText(getApplicationContext(), "3 more taps left!", Toast.LENGTH_SHORT)).show();
-                }
+                counter.tap(System.currentTimeMillis());
+                //if (tapCounter == 6) {
+                //    (Toast.makeText(getApplicationContext(), "3 more taps left!", Toast.LENGTH_SHORT)).show();
+                //}
                 //If this is the last tap for the song
-                if (tapCounter == 9) {
-                    long endTime = System.currentTimeMillis();
-                    long timeSpan = endTime - startTime;
-                    long bpm = Math.round(600000.0 / timeSpan);
+                if (counter.isReady()) {
+                    double bpm = counter.bpmEstimate();
                     Log.i(TAG, "Estimated BPM of song: " + bpm);
 
-                    songs.get(songIndex).setBpm(bpm);
+                    songs.get(counter.getCycleCount()-1).setBpm(bpm);
 
-                    tapCounter = 0;
-                    songIndex++;
-                    if (songIndex >= songs.size()) {
+                    if (counter.getCycleCount() >= songs.size()) {
                         // we're all done with the songs!
                         (Toast.makeText(getApplicationContext(), "All done!", Toast.LENGTH_LONG)).show();
                         Log.i(TAG, "Finished all songs, returning to setup.");
@@ -119,11 +112,8 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                     } else {
                         // throw up a toast: new song
                         (Toast.makeText(getApplicationContext(), "Got it! Proceeding to next song.", Toast.LENGTH_SHORT)).show();
-                        playSong(songIndex);
+                        playSong(counter.getCycleCount());
                     }
-                } else {
-                    //All other cases
-                    tapCounter++;
                 }
             }
         });
@@ -154,7 +144,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
             startService(playIntent);
             Log.i(TAG, "player service started!");
         } else
-            playSong(songIndex);
+            playSong(counter.getCycleCount());
     }
 
     @Override

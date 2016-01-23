@@ -67,7 +67,7 @@ public class SetupActivity extends AppCompatActivity implements ExplainDialogFra
     @Override
     protected void onStart() {
         if (havePermissions) {
-            Log.i(TAG, "Added songs are " + addedSongList.toString() + ", isSetup is " + isSetup);
+            Log.d(TAG, "Added songs (pre-bpm) are " + addedSongList.toString() + ", isSetup is " + isSetup);
             // If there are no songs to add to the database,
             if (addedSongList.size() == 0 || isSetup) {
                 Log.i(TAG, "Songs already in DB; finishing the activity");
