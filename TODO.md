@@ -7,27 +7,16 @@ and feature requests.
 
 ## Known Issues/ Bugs
 
-* App crashes when there are songs present in it's library that no 
-longer exist on the phone. ([track here](https://github.com/jemitk/Pacer/issues/4))
-* Toasts (those little pop ups at the bottom of the screen) are too slow to 
-actually convey information to the user during tap-input.
 * Write unit tests, lol
 
 ## Improvement ideas
 
-* Reject outlying taps in the tap-input to get better measurements ([track here](https://github.com/jemitk/Pacer/issues/5))
-* Change the screen's during tap-input to let the user know when the input
-song has changed
-* Display the current input song during tap-input
-* Make the settings button actually go to a settings page, put remove library
-on that screen
-
 ## Feature requests
 
-All features are preceeded by their priority: P0 for trivial/ important
+All features are preceded by their priority: P0 for trivial/ important
 additions, to P4 for incredibly difficult/ useless additions
 
-* P0: Workouts: increase and decrease song paces based on a predifened sequence,
+* P0: Workouts: increase and decrease song paces based on a predefined sequence,
 or workout
 * P0: Be able to view all songs currently recognized by the phone, along with
 their current bpm on file
@@ -37,3 +26,17 @@ their current bpm on file
 * P1: Adding GPS integration to calculate distance traveled/ route
 * P2: iOS port
 * P3: Windows phone port
+
+
+## Implemented TODOs
+
+* App crashes when songs present in it's library aren't on the phone. ([track here](https://github.com/jemitk/Pacer/issues/4))
+* Reject outlying taps in the tap-input to get better measurements ([track here](https://github.com/jemitk/Pacer/issues/5))
+* Change the screen's during tap-input to let the user know when the input
+song has changed ([commit](https://github.com/jemitk/Pacer/commit/834e96ff319cd0847c579e5fc0ba069b1aa9e674)
+that finished it)
+* Display the current input song during tap-input
+([commit](https://github.com/jemitk/Pacer/commit/e2444f886eb362f33d8caa5153de60fe48540c3f)
+ that finished it)
+* Make the settings button actually go to a settings page, put remove library
+on that screen ([commit](https://github.com/jemitk/Pacer/commit/c8a89ca4e3b287fbf603061559c11fbc24d3d21e) that finished it)
