@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.karenlee.app.db.SongBPMDbHelper;
@@ -162,6 +163,9 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
 
     public void playSong(int index){
         musicSrv.setSong(index);
+        Song current = musicSrv.getCurrentSong();
+        ((TextView) findViewById(R.id.textSongName)).setText(current.getTitle());
+        ((TextView) findViewById(R.id.textArtistName)).setText(current.getArtist());
         musicSrv.playSong();
     }
 

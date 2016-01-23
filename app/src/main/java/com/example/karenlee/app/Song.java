@@ -8,6 +8,7 @@ public class Song implements Serializable{
     private String title;
     private String artist;
     private double bpm = 0.0;
+    private int duration = -1; // in seconds
 
     public Song(long songID, String songTitle, String songArtist) {
         id = songID;
@@ -20,10 +21,16 @@ public class Song implements Serializable{
         bpm = songBpm;
     }
 
+    public Song(long songID, String songTitle, String songArtist, int duration, double songBpm) {
+        this(songID, songTitle, songArtist, songBpm);
+        this.duration = duration;
+    }
+
     public long getID(){return id;}
     public String getTitle(){return title;}
     public String getArtist(){return artist;}
     public double getBpm(){return bpm;}
+    public int getDuration(){return duration;}
     public void setBpm(double bpm) {
         this.bpm = bpm;
     }

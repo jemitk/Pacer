@@ -154,6 +154,10 @@ public class MusicService extends Service implements
         player.prepareAsync();
     }
 
+    public Song getCurrentSong() {
+        return songs.get(songPosn);
+    }
+
     public void setSong(int songIndex){
         songPosn=songIndex;
     }
