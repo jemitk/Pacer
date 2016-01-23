@@ -22,4 +22,15 @@
         android:layout_alignTop="@+id/tapBackground"
         android:layout_centerHorizontal="true"
         android:background="#01ffffff" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="16 times"
+        android:id="@+id/textView2"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="#fffcfc"
+        android:textSize="50dp" />
 </RelativeLayout>

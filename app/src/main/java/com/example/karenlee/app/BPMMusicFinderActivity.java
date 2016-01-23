@@ -81,7 +81,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        counter = new TapCounter(10);
+        counter = new TapCounter(4);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_bpm_music_finder);
@@ -114,7 +114,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                         // throw up a toast: new song
                         (Toast.makeText(getApplicationContext(), "Got it! Proceeding to next song.", Toast.LENGTH_SHORT)).show();
                         ImageView background = ((ImageView) findViewById(R.id.tapBackground));
-                        if (counter.getCycleCount() % 2 == 0) {
+                        if (counter.getCycleCount() % 2 == 1) {
                             background.setImageResource(R.drawable.bpmtap2);
                         } else {
                             background.setImageResource(R.drawable.bpmtap);

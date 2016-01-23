@@ -1,5 +1,7 @@
 package com.example.karenlee.app;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -7,6 +9,8 @@ import java.util.ArrayList;
  * Created by brycewilley on 1/21/16.
  */
 public class TapCounter {
+
+    static final String TAG = "TAP_COUNTER";
 
     // TODO: consider arrays if the ArrayList is too slow
     private ArrayList<Long> tapTimes = new ArrayList<>(); // the list of times when the user tapped
@@ -22,10 +26,10 @@ public class TapCounter {
 
     /**
      * Standard Constructor.
-     * @param measurements The number of measurements (taps) needed
+     * @param measures The number of measures that the tapper should play at least once
      */
-    public TapCounter(int measurements) {
-        goalMeasurements = measurements;
+    public TapCounter(int measures) {
+        goalMeasurements = measures * 4 - 1;
     }
 
     /**
@@ -52,7 +56,10 @@ public class TapCounter {
      */
     public double bpmEstimate() {
         if (isReady()) {
-            long avgDelta = mean(tapDeltas);
+            Log.i(TAG, "Variance before removal is " + variance(tapDeltas));
+            removeOutliers();
+            double avgDelta = mean(tapDeltas);
+            Log.i(TAG, "Variance after removal is " + variance(tapDeltas));
             restart();
             return 60000.0 / avgDelta;
         } else {
@@ -61,13 +68,39 @@ public class TapCounter {
         }
     }
 
-    private static long mean(ArrayList<Long> x) {
+    /**
+     * Removes any tap deltas that are greater than 2 std devs away from the mean
+     */
+    private void removeOutliers() {
+        double stdDev = Math.sqrt(variance(tapDeltas));
+        double mean = mean(tapDeltas);
+        ArrayList<Integer> outliers = new ArrayList<>();
+        for (int i = 0; i < tapDeltas.size(); i++) {
+            if (Math.abs(mean - tapDeltas.get(i)) > 2.1 * stdDev) {
+                outliers.add(0, i);
+            }
+        }
+        // remove those outliers
+        for (int i : outliers) {
+            tapDeltas.remove(i);
+        }
+    }
+
+    private static double mean(ArrayList<Long> x) {
         long sum = 0;
         // loop to find the magnitude total sum, and therefore the mean
         for(long a : x){
             sum += a;
         }
         return sum/x.size();
+    }
+
+    private static long variance(ArrayList<Long> x) {
+        long temp = 0;
+        double mean = mean(x);
+        for(long a : x)
+            temp += (mean-a)*(mean-a);
+        return temp/x.size();
     }
 
     /**
