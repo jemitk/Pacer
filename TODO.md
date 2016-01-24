@@ -20,10 +20,11 @@ additions, to P4 for incredibly difficult/ useless additions
 or workout
 * P0: Be able to view all songs currently recognized by the phone, along with
 their current bpm on file
+* P1: Occasionally survey user after choosing the song to run to: good or bad, if bad, too slow or too fast, then log the inaccuracy and adjust the choosen song
 * P1: Be able to re-tap the beat to individual songs 
 * P1: The ability to store past workouts
 * P1: Keeping track of step counts to add to stored workouts
-* P1: Adding GPS integration to calculate distance traveled/ route
+* P2: Adding GPS integration to calculate distance traveled/ route
 * P2: iOS port
 * P3: Windows phone port
 
