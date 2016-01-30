@@ -28,6 +28,8 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     static final String EXTRA_BPM = "com.example.karenlee.extras.EXTRA_BPM";
     private boolean musicBound=false;
     static final String EXTRA_SONGS = "com.example.karenlee.extras.EXTRA_SONGS";
+    private boolean addNew = true;
+    static final String EXTRA_ADD_NEW = "com.example.karenlee.extras.EXTRA_UPDATE_OR_ADD";
 
     private void setController() {
         // set the controller up
@@ -83,12 +85,13 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        counter = new TapCounter(4);
+        counter = new TapCounter(2);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_bpm_music_finder);
         // get the songs from setupActivity
         songs = (ArrayList<Song>) getIntent().getSerializableExtra(EXTRA_SONGS);
+        addNew = getIntent().getBooleanExtra(EXTRA_ADD_NEW, true);
 
         findViewById(R.id.tapbutton).setOnClickListener(new View.OnClickListener() {
 
@@ -110,11 +113,12 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                         // we're all done with the songs!
                         (Toast.makeText(getApplicationContext(), "All done!", Toast.LENGTH_LONG)).show();
                         Log.i(TAG, "Finished all songs, returning to setup.");
+                        finishSplash();
                         putToDb();
                         goToMain();
                     } else {
                         // throw up a toast: new song
-                        (Toast.makeText(getApplicationContext(), "Got it! Proceeding to next song.", Toast.LENGTH_SHORT)).show();
+                        (Toast.makeText(getApplicationContext(), "Next song!", Toast.LENGTH_LONG)).show();
                         ImageView background = ((ImageView) findViewById(R.id.tapBackground));
                         if (counter.getCycleCount() % 2 == 1) {
                             background.setImageResource(R.drawable.bpmtap2);
@@ -141,6 +145,18 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
         Log.i(TAG, "Sending Intent to PrepareMusicSplash.");
         Intent prepareIntent = new Intent(this, PrepareMusicSplash.class);
         startActivity(prepareIntent);
+    }
+
+    public void nextSplash() {
+        Log.i(TAG, "Sending Intent to NextSplash.");
+        Intent nextIntent = new Intent(this, NextSplash.class);
+        startActivity(nextIntent);
+    }
+
+    public void finishSplash() {
+        Log.i(TAG, "Sending Intent to FinishSplash.");
+        Intent finishIntent = new Intent(this, FinishSplash.class);
+        startActivity(finishIntent);
     }
 
     @Override
@@ -172,7 +188,11 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
 
     public void putToDb() {
         SongBPMDbHelper dbHelper = SongBPMDbHelper.getInstance(this.getApplicationContext());
-        dbHelper.addSongs(songs);
+        if (addNew) {
+            dbHelper.addSongs(songs);
+        } else {
+            dbHelper.updateSongs(songs);
+        }
 
         Log.i(TAG, "Songs currently in the db: " + dbHelper.getSongs().toString());
     }

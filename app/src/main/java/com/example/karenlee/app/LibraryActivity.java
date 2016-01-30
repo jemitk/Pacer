@@ -18,12 +18,16 @@ import android.widget.TextView;
 import com.example.karenlee.app.db.SongBPMDbHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class LibraryActivity extends AppCompatActivity {
 
 
     /** Use this to access the database. */
     private SongBPMDbHelper mDbHelper;
+
+    private ArrayAdapter<Song> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +39,13 @@ public class LibraryActivity extends AppCompatActivity {
         mDbHelper = new SongBPMDbHelper(getApplicationContext());
 
         final ArrayList<Song> songs = mDbHelper.getSongs();
+        Collections.sort(songs, new Comparator<Song>() {
+            public int compare(Song a, Song b) {
+                return a.getTitle().compareTo(b.getTitle());
+            }
+        });
 
-        ArrayAdapter<Song> adapter = new ArrayAdapter<Song>(this,
+        adapter = new ArrayAdapter<Song>(this,
                 R.layout.list_item, songs){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -82,11 +91,27 @@ public class LibraryActivity extends AppCompatActivity {
                 ArrayList<Song> retapSongs = new ArrayList<>();
                 retapSongs.add(songs.get(position));
                 retapSongIntent.putExtra(BPMMusicFinderActivity.EXTRA_SONGS, retapSongs);
+                retapSongIntent.putExtra(BPMMusicFinderActivity.EXTRA_ADD_NEW, false);
                 startActivity(retapSongIntent);
             }
         };
 
         list.setOnItemClickListener(mMessageClickedHandler);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        adapter.clear();
+        ArrayList<Song> songs = mDbHelper.getSongs();
+        Collections.sort(songs, new Comparator<Song>() {
+            public int compare(Song a, Song b) {
+                return a.getTitle().compareTo(b.getTitle());
+            }
+        });
+
+        adapter.addAll(songs);
     }
 
     @Override

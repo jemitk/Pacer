@@ -10,11 +10,11 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/button"
+        android:id="@+id/button2"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:background="#f34067"
-        android:text="@string/prepare_music_splash"
+        android:text="@string/next_music_splash"
         android:textColor="#ffffff"
         android:textSize="40dp" />
 </RelativeLayout>

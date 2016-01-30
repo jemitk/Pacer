@@ -58,6 +58,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".PrepareMusicSplash" />
+        <activity android:name=".FinishSplash" />
+        <activity android:name=".NextSplash" />
         <activity android:name=".PrepareStartSplash" />
         <activity android:name=".FinishUploadSplash" />
         <activity

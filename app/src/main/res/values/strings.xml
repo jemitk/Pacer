@@ -30,4 +30,8 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_library">LibraryActivity</string>
 
+    <string name="prepare_music_splash">Let\&apos;s find\nthe tempo\nof your\ntunes.</string>
+    <string name="next_music_splash">Okay, let\&apos;s\ndo the\nnext\nsong!</string>
+    <string name="finished_music_splash">Okay\nall\ndone!</string>
+
 </resources>
