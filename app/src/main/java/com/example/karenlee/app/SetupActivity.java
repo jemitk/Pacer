@@ -33,7 +33,6 @@ public class SetupActivity extends AppCompatActivity implements ExplainDialogFra
     private boolean havePermissions = false;
     private ArrayList<Song> localSongList;
     private ArrayList<Song> addedSongList = new ArrayList<>();
-    static final String EXTRA_SONGS = "com.example.karenlee.extras.EXTRA_SONGS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,7 +218,7 @@ public class SetupActivity extends AppCompatActivity implements ExplainDialogFra
     public void goToBPM(){
         Log.i(TAG, addedSongList.toString());
         Intent bpmIntent = new Intent(this, BPMMusicFinderActivity.class);
-        bpmIntent.putExtra(EXTRA_SONGS, addedSongList);
+        bpmIntent.putExtra(BPMMusicFinderActivity.EXTRA_SONGS, addedSongList);
         startActivity(bpmIntent);
     }
 

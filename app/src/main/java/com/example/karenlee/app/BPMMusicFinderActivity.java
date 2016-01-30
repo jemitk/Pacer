@@ -27,6 +27,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
     private Intent playIntent;
     static final String EXTRA_BPM = "com.example.karenlee.extras.EXTRA_BPM";
     private boolean musicBound=false;
+    static final String EXTRA_SONGS = "com.example.karenlee.extras.EXTRA_SONGS";
 
     private void setController() {
         // set the controller up
@@ -87,7 +88,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
 
         setContentView(R.layout.activity_bpm_music_finder);
         // get the songs from setupActivity
-        songs = (ArrayList<Song>) getIntent().getSerializableExtra(SetupActivity.EXTRA_SONGS);
+        songs = (ArrayList<Song>) getIntent().getSerializableExtra(EXTRA_SONGS);
 
         findViewById(R.id.tapbutton).setOnClickListener(new View.OnClickListener() {
 

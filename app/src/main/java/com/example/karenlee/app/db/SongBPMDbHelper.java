@@ -73,15 +73,25 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
         // Get the data repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // Create a new map of values
-        ContentValues values;
-
         // create values for each song, and put it into the db
         for (Song song : songList) {
             addSong(db, song);
         }
 
         db.close();
+    }
+
+    /**
+     * Given a list of songs, remove their current entries in the database, and add a new one.
+     * @param songList The list of songs with some aspect modified
+     */
+    public void updateSongs(ArrayList<Song> songList) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        for (Song s : songList) {
+            deleteSongWithId(db, s);
+            addSong(db, s);
+        }
     }
 
     public ArrayList<Song> getSongs() {

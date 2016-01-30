@@ -1,13 +1,19 @@
 package com.example.karenlee.app;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.karenlee.app.db.SongBPMDbHelper;
 
@@ -28,23 +34,55 @@ public class LibraryActivity extends AppCompatActivity {
 
         mDbHelper = new SongBPMDbHelper(getApplicationContext());
 
-        ArrayList<Song> songs = mDbHelper.getSongs();
+        final ArrayList<Song> songs = mDbHelper.getSongs();
 
-        ArrayList<String> songStrings = new ArrayList<>();
+        ArrayAdapter<Song> adapter = new ArrayAdapter<Song>(this,
+                R.layout.list_item, songs){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view;
+                TextView txtTitle;
+                TextView txtArtist;
+                TextView txtBpm;
 
-        for (Song s : songs) {
-            songStrings.add(s.getTitle() + ", " + s.getArtist() + "\t BPM:" + (int) s.getBpm());
-        }
+                if (convertView == null) {
+                    view =  LayoutInflater.from(LibraryActivity.this).inflate(R.layout.list_item, parent, false);
+                } else {
+                    view = convertView;
+                }
+                try {
+                    //  Otherwise, find the TextView field within the layout
+                    txtTitle = (TextView) view.findViewById(R.id.txtTitle);
+                    txtArtist = (TextView) view.findViewById(R.id.txtArtist);
+                    txtBpm = (TextView) view.findViewById(R.id.txtBpm);
+                } catch (ClassCastException e) {
+                    Log.e("ArrayAdapter", "You must supply a resource ID for a TextView");
+                    throw new IllegalStateException(
+                            "ArrayAdapter requires the resource ID to be a TextView", e);
+                }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, songStrings);
+                Song item = getItem(position);
+                if (item.getTitle().length() < 30)
+                    txtTitle.setText(item.getTitle());
+                else
+                    txtTitle.setText(item.getTitle().substring(0, 30) + "...");
+                txtArtist.setText(item.getArtist());
+                txtBpm.setText("" + (int) item.getBpm());
+
+                return view;
+            }
+        };
 
         list.setAdapter(adapter);
 
         // Create a message handling object as an anonymous class.
         AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                // Do something in response to the click
+                Intent retapSongIntent = new Intent(LibraryActivity.this, BPMMusicFinderActivity.class);
+                ArrayList<Song> retapSongs = new ArrayList<>();
+                retapSongs.add(songs.get(position));
+                retapSongIntent.putExtra(BPMMusicFinderActivity.EXTRA_SONGS, retapSongs);
+                startActivity(retapSongIntent);
             }
         };
 
