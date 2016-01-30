@@ -29,8 +29,9 @@
             android:layout_weight="0.3"
             android:background="#f34067"
             android:typeface="sans"
-            android:onClick="bye"
-            android:textSize="40dp" />
+            android:onClick="viewLibrary"
+            android:textSize="40dp"
+            android:nestedScrollingEnabled="false" />
 
         <Button
             android:layout_width="match_parent"

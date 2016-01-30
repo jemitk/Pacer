@@ -28,5 +28,6 @@
 
     <string name="explain_permissions_dialogue_title">Wait!</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_library">LibraryActivity</string>
 
 </resources>

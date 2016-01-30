@@ -59,11 +59,15 @@ public class AccelSensorSnapshot {
     public void addSample(double time, double x, double y, double z) {
         if (currentSample < max) {
             // TODO(Bryce): add noise filtering, delta,  and magnitude measurements here.
+            if (timeDataVector[currentSample - 1] > time) {
+                // adding times backwards!! Error out!
+                throw new IllegalStateException("Cannot add times earlier than the last added time!");
+            }
             timeDataVector[currentSample] = time;
             accelDataMatrix[0][currentSample] = x;
             accelDataMatrix[1][currentSample] = y;
             accelDataMatrix[2][currentSample] = z;
-            currentSample += 1;
+            currentSample++;
         } else {
             Log.d(TAG, "Ran out of space! " + max + " is the max amount.");
         }

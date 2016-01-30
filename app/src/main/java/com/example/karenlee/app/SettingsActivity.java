@@ -1,5 +1,6 @@
 package com.example.karenlee.app;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,6 +41,11 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void viewLibrary(View view) {
+        Intent newIntent = new Intent(this, LibraryActivity.class);
+        startActivity(newIntent);
     }
 
     public void bye(View view) {
