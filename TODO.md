@@ -18,10 +18,7 @@ additions, to P4 for incredibly difficult/ useless additions
 
 * P0: Workouts: increase and decrease song paces based on a predefined sequence,
 or workout
-* P0: Be able to view all songs currently recognized by the phone, along with
-their current bpm on file
 * P1: Occasionally survey user after choosing the song to run to: good or bad, if bad, too slow or too fast, then log the inaccuracy and adjust the choosen song
-* P1: Be able to re-tap the beat to individual songs 
 * P1: The ability to store past workouts
 * P1: Keeping track of step counts to add to stored workouts
 * P2: Adding GPS integration to calculate distance traveled/ route
@@ -31,6 +28,9 @@ their current bpm on file
 
 ## Implemented TODOs
 
+* Be able to re-tap the beat to individual songs ([commit](https://github.com/jemitk/Pacer/commit/c635acd150cacb18b1a2f13ef3a7d8b8611954d8))
+* Be able to view all songs currently recognized by the phone, along with
+their current bpm on file ([commit](https://github.com/jemitk/Pacer/commit/bee9c853045af808d9ef20acfa78978ec7b11776))
 * App crashes when songs present in it's library aren't on the phone. ([track here](https://github.com/jemitk/Pacer/issues/4))
 * Reject outlying taps in the tap-input to get better measurements ([track here](https://github.com/jemitk/Pacer/issues/5))
 * Change the screen's during tap-input to let the user know when the input
