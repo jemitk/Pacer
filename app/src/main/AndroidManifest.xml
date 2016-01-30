@@ -40,7 +40,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".RunActivity"
-            android:label="@string/title_activity_run" />
+            android:label="@string/title_activity_run"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
@@ -66,12 +67,13 @@
             android:name=".WorkoutsActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_workouts"
-            android:theme="@style/FullscreenTheme" />
+            android:theme="@style/FullscreenTheme"/>
         <activity
             android:name=".WorkoutMusicActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_workout_music"
-            android:theme="@style/FullscreenTheme" />
+            android:theme="@style/FullscreenTheme"
+            />
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
