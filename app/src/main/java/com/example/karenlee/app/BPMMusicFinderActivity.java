@@ -21,6 +21,7 @@ import java.util.ArrayList;
 public class BPMMusicFinderActivity extends AppCompatActivity implements MediaController.MediaPlayerControl {
     private MusicService musicSrv;
     static final String TAG = "BPM_MUSIC_FINDER";
+    static final int TAP_MEASURES = 2;
     private int numSongs;
     private TapCounter counter;
     private ArrayList<Song> songs = new ArrayList<>();
@@ -84,11 +85,12 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        counter = new TapCounter(2);
         super.onCreate(savedInstanceState);
+        counter = new TapCounter(TAP_MEASURES);
 
         setContentView(R.layout.activity_bpm_music_finder);
+        ((TextView)findViewById(R.id.textCount)).setText(TAP_MEASURES * 4 + " times");
+
         // get the songs from setupActivity
         songs = (ArrayList<Song>) getIntent().getSerializableExtra(EXTRA_SONGS);
         addNew = getIntent().getBooleanExtra(EXTRA_ADD_NEW, true);
@@ -97,11 +99,13 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
 
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "User has touched the button");
+                Log.v(TAG, "User has touched the button");
                 counter.tap(System.currentTimeMillis());
-                //if (tapCounter == 6) {
-                //    (Toast.makeText(getApplicationContext(), "3 more taps left!", Toast.LENGTH_SHORT)).show();
-                //}
+                TextView tapCount = ((TextView)findViewById(R.id.textCount));
+
+                // TODO: Make this a little cleaner, it's pretty iffy right now
+                tapCount.setText(Integer.parseInt(tapCount.getText().toString().split(" ")[0])-1 + " times");
+
                 //If this is the last tap for the song
                 if (counter.isReady()) {
                     double bpm = counter.bpmEstimate();
@@ -125,6 +129,7 @@ public class BPMMusicFinderActivity extends AppCompatActivity implements MediaCo
                         } else {
                             background.setImageResource(R.drawable.bpmtap);
                         }
+                        ((TextView)findViewById(R.id.textCount)).setText(TAP_MEASURES * 4 + " times");
                         playSong(counter.getCycleCount());
                     }
                 }

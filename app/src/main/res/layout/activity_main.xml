@@ -13,34 +13,40 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="Start"
+            android:text="Start."
+            android:textColor="#ffffff"
+            android:textSize="40sp"
+            android:typeface="sans"
+            android:textStyle="bold"
             android:id="@+id/startButton"
             android:layout_gravity="center"
             android:layout_weight="0.3"
-            android:background="#1aeee3"
-            android:textSize="40dp"
-            android:typeface="sans" />
+            android:background="#1aeee3" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="Workouts"
+            android:text="Workouts."
+            android:textColor="#ffffff"
+            android:typeface="sans"
+            android:textSize="40sp"
+            android:textStyle="bold"
             android:id="@+id/workoutsButton"
             android:layout_gravity="center"
             android:layout_weight="0.3"
-            android:background="#f34067"
-            android:typeface="sans"
-            android:textSize="40dp" />
+            android:background="#f34067" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="Settings"
+            android:text="Settings."
+            android:textColor="#1aeee3"
+            android:typeface="sans"
+            android:textSize="40sp"
+            android:textStyle="bold"
             android:id="@+id/settingsButton"
             android:layout_gravity="center"
             android:layout_weight="0.3"
-            android:background="#ffffff"
-            android:typeface="sans"
-            android:textSize="40dp" />
+            android:background="#ffffff" />
     </LinearLayout>
 </RelativeLayout>

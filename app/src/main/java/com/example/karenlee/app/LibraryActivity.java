@@ -74,7 +74,7 @@ public class LibraryActivity extends AppCompatActivity {
                 if (item.getTitle().length() < 30)
                     txtTitle.setText(item.getTitle());
                 else
-                    txtTitle.setText(item.getTitle().substring(0, 30) + "...");
+                    txtTitle.setText(item.getTitle().substring(0, 29) + "...");
                 txtArtist.setText(item.getArtist());
                 txtBpm.setText("" + (int) item.getBpm());
 

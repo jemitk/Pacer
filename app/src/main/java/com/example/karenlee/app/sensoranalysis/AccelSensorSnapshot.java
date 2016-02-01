@@ -59,7 +59,7 @@ public class AccelSensorSnapshot {
     public void addSample(double time, double x, double y, double z) {
         if (currentSample < max) {
             // TODO(Bryce): add noise filtering, delta,  and magnitude measurements here.
-            if (timeDataVector[currentSample - 1] > time) {
+            if (currentSample > 0 && timeDataVector[currentSample - 1] > time) {
                 // adding times backwards!! Error out!
                 throw new IllegalStateException("Cannot add times earlier than the last added time!");
             }
