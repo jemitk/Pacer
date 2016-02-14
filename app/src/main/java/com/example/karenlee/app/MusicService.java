@@ -91,9 +91,15 @@ public class MusicService extends Service implements
         player.start();
     }
 
+    public void playNext() {
+        songPosn++;
+        if (songPosn == songs.size()) songPosn = 1;
+        playSong();
+    }
+
     public void playPrev(){
         songPosn--;
-        if(songPosn==0) songPosn=songs.size()-1;
+        if(songPosn == -1) songPosn = songs.size() - 1;
         playSong();
     }
 

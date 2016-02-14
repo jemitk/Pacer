@@ -69,12 +69,6 @@
             android:label="@string/title_activity_workouts"
             android:theme="@style/FullscreenTheme"/>
         <activity
-            android:name=".WorkoutMusicActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_workout_music"
-            android:theme="@style/FullscreenTheme"
-            />
-        <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".MainActivity" >

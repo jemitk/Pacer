@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.example.karenlee.app.songlists.SimpleSongListGenerator;
+
 public class PrepareStartSplash extends AppCompatActivity {
 
     static final String TAG = "PREPARE_START_SPLASH";
@@ -26,6 +28,7 @@ public class PrepareStartSplash extends AppCompatActivity {
 
     public void startRunActivity(){
         Intent runIntent = new Intent(this, RunActivity.class);
+        runIntent.putExtra(RunActivity.EXTRA_LIST_GENERATOR, new SimpleSongListGenerator());
         startActivity(runIntent);
         Log.i(TAG, "Exiting this activity.");
         finish();

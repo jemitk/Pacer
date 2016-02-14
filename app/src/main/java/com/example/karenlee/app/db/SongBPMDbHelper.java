@@ -138,6 +138,25 @@ public class SongBPMDbHelper extends SQLiteOpenHelper {
         }
     }
 
+    public Song getBpmSongExcluding(double bpm, ArrayList<Song> notInHere) {
+        ArrayList<Song> songList = getSongs();
+        if (songList.size() == 0) {
+            throw new IllegalStateException("No songs in the database");
+        }
+        songList.removeAll(notInHere);
+        if (songList.size() == 0) {
+            throw new IllegalStateException("All of the possible songs are excluded");
+        }
+        Song closest = songList.get(0);
+
+        for (Song s : songList) {
+            if (Math.abs(s.getBpm() - bpm) < Math.abs(closest.getBpm() - bpm)) {
+                closest = s;
+            }
+        }
+        return closest;
+    }
+
     // cannot be used separately.
     private void deleteSongWithId(SQLiteDatabase db, Song song) {
         String selection = SongBPMEntry.COLUMN_NAME_SONG_ID + "=?";

@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * @param requestCode
      * @param resultCode
-     * @param newItem the new ingredient to add to the list
+     * @param newItem
      */
     public void onActivityResult(int requestCode, int resultCode, Intent newItem){
         // gets the new item from the new window

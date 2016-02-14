@@ -36,11 +36,31 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignTop="@+id/button"
-        android:layout_marginTop="110dp"
         android:layout_marginBottom="40dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:textAlignment="center"
         android:textColor="#A0A0A0" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Next Song"
+        android:onClick="playNext"
+        android:id="@+id/buttonNext"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:height="240dp"
+        android:width="170dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Previous Song"
+        android:onClick="playPrev"
+        android:id="@+id/buttonPrevious"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:height="240dp"
+        android:width="170dp" />
 </RelativeLayout>
